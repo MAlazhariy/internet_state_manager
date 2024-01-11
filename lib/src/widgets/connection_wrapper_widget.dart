@@ -35,10 +35,7 @@ class ConnectionWrapperWidget extends StatefulWidget {
   /// This widget shown when internet connection is offline.
   ///
   /// If [noInternetScreen] is null, the default widget will be shown
-  final Widget Function(
-    BuildContext context,
-    InternetProvider internetProvider,
-  )? noInternetScreen;
+  final Widget? noInternetScreen;
 
   @override
   State<ConnectionWrapperWidget> createState() => _ConnectionWrapperWidgetState();
@@ -67,7 +64,7 @@ class _ConnectionWrapperWidgetState extends State<ConnectionWrapperWidget> {
     return Consumer<InternetProvider>(
       builder: (context, internetProvider, _) {
         if (internetProvider.noInternetConnection) {
-          return _DisconnectedWidget(
+          return widget.noInternetScreen != null ? widget.noInternetScreen! : _DisconnectedWidget(
             widget,
             internetProvider: internetProvider,
           );
