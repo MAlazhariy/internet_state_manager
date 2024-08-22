@@ -46,8 +46,8 @@ class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = options.backgroundColor ?? Theme.of(context).colorScheme.error;
-    final textColor = options.textColor ?? Theme.of(context).colorScheme.onError;
+    final backgroundColor = options.errorBackgroundColor ?? Theme.of(context).colorScheme.error;
+    final textColor = options.onBackgroundColor ?? Theme.of(context).colorScheme.onError;
 
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
@@ -76,14 +76,14 @@ class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    options.noInternetTitle,
+                    options.noInternetTitle(),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: textColor,
                           fontWeight: FontWeight.bold,
                         ),
                   ),
                   Text(
-                    options.descriptionText,
+                    options.descriptionText(),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: textColor),
                   ),
                 ],
@@ -117,7 +117,7 @@ class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
                           await _onTryAgain();
                         },
                         child: Text(
-                          options.tryAgainText,
+                          options.tryAgainText(),
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textColor),
                         ),
                       );

@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class InternetStateManagerInitializer extends StatelessWidget {
   const InternetStateManagerInitializer._({
     required this.child,
-  }) : options = const InternetStateOptions();
+  }) : options = null;
 
   /// Initialize [InternetStateManagerInitializer]
   ///
@@ -26,16 +26,18 @@ class InternetStateManagerInitializer extends StatelessWidget {
   ///  ```
   InternetStateManagerInitializer.init({
     required this.child,
-    this.options = const InternetStateOptions(),
+    this.options,
     super.key,
   }) {
-    InternetStateManagerController.init(options: options);
+    InternetStateManagerController.init(
+      options: options ?? InternetStateOptions.defaultOptions,
+    );
   }
 
   /// Place for your main page widget.
   final Widget child;
 
-  final InternetStateOptions options;
+  final InternetStateOptions? options;
 
   @override
   Widget build(BuildContext context) {
