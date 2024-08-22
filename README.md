@@ -45,19 +45,116 @@ from the package authors, and more.
 
 <!-- [![pub package](https://img.shields.io/pub/v/requests_inspector.svg)](https://pub.dev/packages/requests_inspector) -->
 
-# Internet Connection Management Package for Flutter (DEMO)
+
+# Internet State Manager
 
 ## Overview
 
-This Flutter package is designed to manage internet connection outages seamlessly within applications. It ensures an uninterrupted user experience by implementing a reliable data-fetching mechanism that activates once the internet connection is restored.
-
-The package is currently being utilized in my projects and will be publicly available soon after further modifications, improvements, and comprehensive documentation.
+This Flutter package is designed to manage internet connection states seamlessly within applications. It ensures an uninterrupted user experience by implementing a reliable mechanism to handle internet connectivity issues and automatically restore the application state once the connection is reestablished.
 
 ## Features
 
-- **Actual Internet Connection Check:** Accurately detects the presence of an internet connection, beyond just verifying a Wi-Fi connection.
-- **Ease of Use:** Simplifies implementation by reducing the need for extensive code on every page that requires internet connection checks, making it practical and user-friendly.
-- **Customizable Widgets:** Displays the package's built-in widget or a custom widget when the internet connection is down, with periodic status updates when the connection is restored.
-- **Builder Widget:** Provides a dedicated builder widget with parameters to display various internet connection statuses, allowing control over the display of specific widgets based on the connection state.
-- **Automatic Data Fetching:** Implements custom functions that activate once the internet connection is restored. This feature enhances the user experience by eliminating the need to reload or reopen the application to fetch data, ensuring seamless operation even after outages.
+- **Accurate Internet Connection Detection:** The package accurately checks for an actual internet connection beyond verifying a Wi-Fi connection.
+- **Ease of Use:** Simplifies the process by reducing the code needed to manage internet connectivity on different screens within your app.
+- **Customizable Widgets:** Automatically displays either the package's built-in widget or a custom widget when the internet connection is lost, and periodically checks to update the connection status.
+- **Builder Widget:** Provides a `builder` widget that allows for extensive customization. You can use this widget to build a custom interface based on the internet connection status. This feature gives you full control over what to display depending on whether the internet is connected or not. The `builder` widget provides access to the current `InternetManagerState`, which you can use to check the connection status via `state.status`.
+- **Automatic Data Fetching:** Executes custom functions once the internet connection is restored, ensuring a smooth user experience without the need to reload or reopen the app.
 
+## Getting Started
+
+### 🔩 Installation
+
+Add the package to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  internet_state_manager:
+    git:
+      url: https://github.com/MAlazhariy/internet_state_manager.git
+      ref: v1.0.0
+
+```
+
+### Android Configuration
+
+To ensure proper functionality on Android, especially in release mode, you need to add `INTERNET` and `ACCESS_NETWORK_STATE` permissions to your `AndroidManifest.xml`:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Permissions for internet_state_manager -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    
+    <application
+        ...
+```
+
+### Usage
+
+1. **Initialization**
+
+   Wrap your app's root widget with `InternetStateManagerInitializer.init` in the `main()` function:
+
+   ```dart
+   void main() {
+     runApp(
+       InternetStateManagerInitializer.init(
+         child: const MyApp(),
+       ),
+     );
+   }
+   ```
+
+2. **Wrapping your Screens**
+
+   To handle the internet connection state on specific screens, wrap the desired screen with `InternetStateManager`, like:
+
+   ```dart
+   return InternetStateManager(
+     child: Scaffold(
+       body: Center(
+         child: Text('Content of the screen'),
+       ),
+     ),
+   );
+   ```
+
+3. **Use in global App**
+
+   If you want to manage the internet connection state across the entire app without wrapping each screen individually, you can wrap the `MaterialApp` with `InternetStateManager` like this:
+
+   ```dart
+   return MaterialApp(
+     // other properties...
+     home: const InternetStateManager(
+       child: HomeScreen(),
+     ),
+   );
+   ```
+
+4. **Customizing with Builder Widget**
+
+   You can use `InternetStateManager.builder` widget to customize how your app handles internet connection states. This widget allows you to build the UI based on the **internet connection status**.
+
+   here's the example:
+
+   ```dart
+   return InternetStateManager.builder(
+     builder: (context, state) {
+       // Access the connection status through state.status
+       return Scaffold(
+         body: Center(
+           child: state.status == InternetStatus.connected // or use state.status.isConnected (bool)
+               ? Text('You are connected to the internet')
+               : Text('No internet connection'),
+         ),
+       );
+     },
+   );
+   ```
+
+   By wrapping the MaterialApp, you ensure that the InternetStateManager monitors the internet connection for the entire application. This means that any screen within your app will automatically respond to internet connectivity changes without the need to wrap each screen individually.
+
+
+For instance, if the connection is lost, the package will display a custom or default widget across the app, and once the connection is restored, it will seamlessly return to the previous state.
