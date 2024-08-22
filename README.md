@@ -1,45 +1,3 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
-
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
-```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
-
--->
-
 [![Stand With Palestine](https://raw.githubusercontent.com/TheBSD/StandWithPalestine/main/banner-no-action.svg)](https://thebsd.github.io/StandWithPalestine)
 
 
@@ -50,7 +8,7 @@ from the package authors, and more.
 
 ## Overview
 
-This Flutter package is designed to manage internet connection states seamlessly within applications. It ensures an uninterrupted user experience by implementing a reliable mechanism to handle internet connectivity issues and automatically restore the application state once the connection is reestablished.
+A Flutter package designed to manage internet connection states seamlessly within applications. It ensures an uninterrupted user experience by implementing a reliable mechanism to handle internet connectivity issues and automatically restore the application state once the connection is reestablished.
 
 ## Features
 
@@ -104,9 +62,9 @@ To ensure proper functionality on Android, especially in release mode, you need 
    }
    ```
 
-2. **Wrapping your Screens**
+2. **Wrap your Screens**
 
-   To handle the internet connection state on specific screens, wrap the desired screen with `InternetStateManager`, like:
+   To handle the internet connection state on your screens, wrap the desired screen with `InternetStateManager`, like:
 
    ```dart
    return InternetStateManager(
@@ -117,8 +75,10 @@ To ensure proper functionality on Android, especially in release mode, you need 
      ),
    );
    ```
+----
 
-3. **Use in global App**
+
+<!-- **Use in global App**
 
    If you want to manage the internet connection state across the entire app without wrapping each screen individually, you can wrap the `MaterialApp` with `InternetStateManager` like this:
 
@@ -132,9 +92,9 @@ To ensure proper functionality on Android, especially in release mode, you need 
    ```
 
    By wrapping the MaterialApp, you ensure that the InternetStateManager monitors the internet connection for the entire application. This means that any screen within your app will automatically respond to internet connectivity changes without the need to wrap each screen individually.
-   
+-->   
 
-5. **Customizing with Builder Widget**
+#### Customizing with Builder Widget
 
    You can use `InternetStateManager.builder` widget to customize how your app handles internet connection states. This widget allows you to build the UI based on the **internet connection status**.
 
@@ -158,11 +118,11 @@ To ensure proper functionality on Android, especially in release mode, you need 
    In this example, you can customize the UI according to whether the internet is connected or not. The `state.status` provides the current internet connection status, allowing you to display different content based on the connection state.
 
 
-5. **Handling Connection Restoration**
+## Handling Connection Restoration
 
-   The `InternetStateManager` provides a callback for when the internet connection is restored after being disconnected. Use the `onRestoreInternetConnection` property to execute logic or update the UI when the connection is re-established.
+The `InternetStateManager` provides a callback for when the internet connection is restored after being disconnected. Use the `onRestoreInternetConnection` property to execute logic or update the UI when the connection is re-established.
 
-   Here's an example:
+Here's an example:
    
    ```dart
    return InternetStateManager(
@@ -185,4 +145,49 @@ To ensure proper functionality on Android, especially in release mode, you need 
    In this example, the onRestoreInternetConnection callback is used to reinitialize data or update the UI when the internet connection is restored. This allows you to handle any necessary updates or actions that should occur once connectivity is regained.
 
 
+----
+
 For instance, if the connection is lost, the package will display a custom or default widget across the app, and once the connection is restored, it will seamlessly return to the previous state.
+
+
+<!--
+This README describes the package. If you publish this package to pub.dev,
+this README's contents appear on the landing page for your package.
+
+For information about how to write a good package README, see the guide for
+[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+
+For general information about developing packages, see the Dart guide for
+[creating packages](https://dart.dev/guides/libraries/create-library-packages)
+and the Flutter guide for
+[developing packages and plugins](https://flutter.dev/developing-packages).
+
+
+TODO: Put a short description of the package here that helps potential users
+know whether this package might be useful for them.
+
+## Features
+
+TODO: List what your package can do. Maybe include images, gifs, or videos.
+
+## Getting started
+
+TODO: List prerequisites and provide or point to information on how to
+start using the package.
+
+## Usage
+
+TODO: Include short and useful examples for package users. Add longer examples
+to `/example` folder.
+
+```dart
+const like = 'sample';
+```
+
+## Additional information
+
+TODO: Tell users more about the package: where to find more information, how to
+contribute to the package, how to file issues, what response they can expect
+from the package authors, and more.
+
+-->
