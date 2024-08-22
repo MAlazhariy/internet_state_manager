@@ -64,15 +64,13 @@ This Flutter package is designed to manage internet connection states seamlessly
 
 ### 🔩 Installation
 
-Add the package to your `pubspec.yaml`:
+Add the package to your `pubspec.yaml` under `dependencies:`:
 
 ```yaml
-dependencies:
-  internet_state_manager:
-    git:
-      url: https://github.com/MAlazhariy/internet_state_manager.git
-      ref: v1.0.0
-
+internet_state_manager:
+  git:
+    url: https://github.com/MAlazhariy/internet_state_manager.git
+    ref: v1.0.0
 ```
 
 ### Android Configuration
