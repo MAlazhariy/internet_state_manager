@@ -40,6 +40,11 @@ from the package authors, and more.
 
 -->
 
+[![Stand With Palestine](https://raw.githubusercontent.com/TheBSD/StandWithPalestine/main/banner-no-action.svg)](https://thebsd.github.io/StandWithPalestine)
+
+
+<!-- [![pub package](https://img.shields.io/pub/v/requests_inspector.svg)](https://pub.dev/packages/requests_inspector) -->
+
 # Internet Connection Management Package for Flutter (DEMO)
 
 ## Overview
