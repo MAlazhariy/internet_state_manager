@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-const kPrimaryLightColor = Color(0xFFA1B5B7);
-const kTitleColor = Color(0xFF13143F);
-const kErrorColor = Color(0xFF9B0C0C);
-const kSuccessColor = Color(0xFF1A9B0C);
+abstract class AppColors {
+  static const errorColor = Color(0xFFFA2C3C);
+  static const successColor = Color(0xff30c16c);
+}
+
+// const kPrimaryLightColor = Color(0xFFA1B5B7);
+// const kTitleColor = Color(0xFF13143F);
