@@ -133,11 +133,14 @@ To ensure proper functionality on Android, especially in release mode, you need 
    );
    ```
 
-4. **Customizing with Builder Widget**
+   By wrapping the MaterialApp, you ensure that the InternetStateManager monitors the internet connection for the entire application. This means that any screen within your app will automatically respond to internet connectivity changes without the need to wrap each screen individually.
+   
+
+5. **Customizing with Builder Widget**
 
    You can use `InternetStateManager.builder` widget to customize how your app handles internet connection states. This widget allows you to build the UI based on the **internet connection status**.
 
-   here's the example:
+   Here's an example:
 
    ```dart
    return InternetStateManager.builder(
@@ -154,7 +157,34 @@ To ensure proper functionality on Android, especially in release mode, you need 
    );
    ```
 
-   By wrapping the MaterialApp, you ensure that the InternetStateManager monitors the internet connection for the entire application. This means that any screen within your app will automatically respond to internet connectivity changes without the need to wrap each screen individually.
+   In this example, you can customize the UI according to whether the internet is connected or not. The `state.status` provides the current internet connection status, allowing you to display different content based on the connection state.
+
+
+5. **Handling Connection Restoration**
+
+   The `InternetStateManager` provides a callback for when the internet connection is restored after being disconnected. Use the `onRestoreInternetConnection` property to execute logic or update the UI when the connection is re-established.
+
+   Here's an example:
+   
+   ```dart
+   return InternetStateManager(
+     onRestoreInternetConnection: () {
+       // Execute some logic or update the UI
+       setState(() {
+         initData(); // Example function to reinitialize data
+       });
+     },
+     child: Scaffold(
+       appBar: AppBar(
+         title: Text('Screen Title'),
+       ),
+       body: Center(
+         child: Text('Content of the screen'),
+       ),
+     ),
+   );
+   ```
+   In this example, the onRestoreInternetConnection callback is used to reinitialize data or update the UI when the internet connection is restored. This allows you to handle any necessary updates or actions that should occur once connectivity is regained.
 
 
 For instance, if the connection is lost, the package will display a custom or default widget across the app, and once the connection is restored, it will seamlessly return to the previous state.
