@@ -94,7 +94,7 @@ To ensure proper functionality on Android, especially in release mode, you need 
    By wrapping the MaterialApp, you ensure that the InternetStateManager monitors the internet connection for the entire application. This means that any screen within your app will automatically respond to internet connectivity changes without the need to wrap each screen individually.
 -->   
 
-#### Customizing with Builder Widget
+## Customizing with Builder Widget
 
    You can use `InternetStateManager.builder` widget to customize how your app handles internet connection states. This widget allows you to build the UI based on the **internet connection status**.
 
@@ -127,19 +127,11 @@ Here's an example:
    ```dart
    return InternetStateManager(
      onRestoreInternetConnection: () {
-       // Execute some logic or update the UI
        setState(() {
-         initData(); // Example function to reinitialize data
+         initData(); // Your logic here to execute when the internet connection is restored.
        });
      },
-     child: Scaffold(
-       appBar: AppBar(
-         title: Text('Screen Title'),
-       ),
-       body: Center(
-         child: Text('Content of the screen'),
-       ),
-     ),
+     child: // widget,
    );
    ```
    In this example, the onRestoreInternetConnection callback is used to reinitialize data or update the UI when the internet connection is restored. This allows you to handle any necessary updates or actions that should occur once connectivity is regained.
