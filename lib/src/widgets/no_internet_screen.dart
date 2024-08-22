@@ -1,37 +1,34 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:connection_wrapper/src/models/disconnection_oprions_model.dart';
-import 'package:connection_wrapper/src/providers/internet_provider_provider.dart';
-import 'package:connection_wrapper/src/utils/constants.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_state_manager/src/bloc/internet_manager_cubit.dart';
+import 'package:internet_state_manager/src/utils/internet_state_manager_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class NoInternetScreen extends StatefulWidget {
-  const NoInternetScreen({
-    super.key,
-    this.customOptions,
-  });
-
-  final DisconnectionOptions? customOptions;
+class NoInternetBottomWidget extends StatefulWidget {
+  const NoInternetBottomWidget({super.key});
 
   @override
-  State<NoInternetScreen> createState() => _NoInternetScreenState();
+  State<NoInternetBottomWidget> createState() => _NoInternetBottomWidgetState();
 }
 
-class _NoInternetScreenState extends State<NoInternetScreen> {
+class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
+  final options = InternetStateManagerController.instance.options;
+
   // check internet connection every minute until connected to the internet
-  late final _checkInternetStreamPeriodic = Stream.periodic(widget.customOptions?.checkInternetPeriodic ?? const Duration(minutes: 1), (count) async {
-    debugPrint('$count');
-    return await Provider.of<InternetProvider>(context, listen: false).checkConnection();
-  });
+  late final _checkInternetStreamPeriodic = Stream.periodic(
+    getOptions.checkConnectionPeriodic,
+    (count) async {
+      if (!mounted) return;
+      context.read<InternetManagerCubit>().checkConnection();
+    },
+  );
   late StreamSubscription _sub;
 
-  Future<void> _onPressed() async {
+  Future<void> _onTryAgain() async {
     _sub.pause();
-    await Provider.of<InternetProvider>(context, listen: false).checkConnection();
+    await context.read<InternetManagerCubit>().checkConnection();
     _sub.resume();
   }
 
@@ -48,14 +45,9 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final backgroundColor = widget.customOptions?.backgroundColor ?? Constants.disconnectionOptions.backgroundColor ?? Theme.of(context).colorScheme.error;
-    final textColor = widget.customOptions?.textColor ?? Constants.disconnectionOptions.textColor ?? Theme.of(context).colorScheme.onError;
+    final backgroundColor = options.backgroundColor ?? Theme.of(context).colorScheme.error;
+    final textColor = options.textColor ?? Theme.of(context).colorScheme.onError;
 
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
@@ -80,21 +72,31 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
             ),
             const SizedBox(width: 8),
             Expanded(
-              child: Text(
-                  'no_internet'.tr(),
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: textColor,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    options.noInternetTitle,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  Text(
+                    options.descriptionText,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: textColor),
+                  ),
+                ],
               ),
             ),
             const SizedBox(width: 8),
-            Consumer<InternetProvider>(
-              builder: (context, internetProvider, _) {
-                if(internetProvider.connectionStatus == ConnectivityResult.none){
+            BlocBuilder<InternetManagerCubit, InternetManagerState>(
+              builder: (context, state) {
+                if (context.read<InternetManagerCubit>().disconnectedToLocalNetwork) {
                   return const SizedBox(height: 50);
                 }
-                return internetProvider.loading
+
+                return state.loading
                     ? Container(
                         padding: const EdgeInsets.symmetric(
                           vertical: 13,
@@ -112,13 +114,11 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
                       )
                     : TextButton(
                         onPressed: () async {
-                          await _onPressed();
+                          await _onTryAgain();
                         },
                         child: Text(
-                            'try_again'.tr(),
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: textColor,
-                          ),
+                          options.tryAgainText,
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textColor),
                         ),
                       );
               },
