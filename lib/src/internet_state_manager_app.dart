@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:internet_state_manager/src/bloc/internet_manager_cubit.dart';
 import 'package:internet_state_manager/src/utils/internet_state_manager_controller.dart';
 import 'package:internet_state_manager/src/utils/internet_state_options.dart';
@@ -30,7 +32,7 @@ class InternetStateManagerInitializer extends StatelessWidget {
     super.key,
   }) {
     InternetStateManagerController.init(
-      options: options ?? InternetStateOptions.defaultOptions,
+      options: options ?? InternetStateOptions(),
     );
   }
 
