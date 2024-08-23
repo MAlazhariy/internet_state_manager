@@ -24,24 +24,26 @@ class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
       context.read<InternetManagerCubit>().checkConnection();
     },
   );
-  late StreamSubscription _sub;
+  StreamSubscription? _sub;
 
   Future<void> _onTryAgain() async {
-    _sub.pause();
+    _sub?.pause();
     await context.read<InternetManagerCubit>().checkConnection();
-    _sub.resume();
+    _sub?.resume();
   }
 
   @override
   void initState() {
+    if(!getOptions.autoCheckConnection) {
+      _sub = _checkInternetStreamPeriodic.asyncMap((event) async => await event).listen((event) {});
+    }
     super.initState();
-    _sub = _checkInternetStreamPeriodic.asyncMap((event) async => await event).listen((event) {});
   }
 
   @override
   void dispose() {
+    _sub?.cancel();
     super.dispose();
-    _sub.cancel();
   }
 
   @override
@@ -58,7 +60,7 @@ class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
         ),
         padding: const EdgeInsets.symmetric(
           horizontal: 16,
-          vertical: 3,
+          vertical: 8,
         ),
         decoration: BoxDecoration(
           color: backgroundColor,
@@ -76,15 +78,15 @@ class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    options.noInternetTitle(),
+                    options.labels.noInternetTitle(),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: textColor,
                           fontWeight: FontWeight.bold,
                         ),
                   ),
                   Text(
-                    options.descriptionText(),
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: textColor),
+                    options.labels.descriptionText(),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: textColor),
                   ),
                 ],
               ),
@@ -117,7 +119,7 @@ class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
                           await _onTryAgain();
                         },
                         child: Text(
-                          options.tryAgainText(),
+                          options.labels.tryAgainText(),
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textColor),
                         ),
                       );
