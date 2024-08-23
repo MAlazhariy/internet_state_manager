@@ -17,8 +17,7 @@ class InternetStateManager extends StatefulWidget {
     super.key,
     required this.builder,
     this.onRestoreInternetConnection,
-    this.noInternetScreen,
-  }) : child = null;
+  }) : child = null, noInternetScreen = null;
 
   final Widget? child;
   final Widget Function(
@@ -62,7 +61,6 @@ class _InternetStateManagerState extends State<InternetStateManager> {
 
   @override
   void dispose() {
-    context.read<InternetManagerCubit>().close();
     super.dispose();
   }
 
@@ -71,11 +69,7 @@ class _InternetStateManagerState extends State<InternetStateManager> {
     return BlocBuilder<InternetManagerCubit, InternetManagerState>(
       builder: (context, state) {
         if (state.status.isDisconnected) {
-          return widget.noInternetScreen != null
-              ? widget.noInternetScreen!
-              : _DisconnectedWidget(
-            parent: widget,
-          );
+          return widget.noInternetScreen ?? _DisconnectedWidget(parent: widget);
         } else if (context.read<InternetManagerCubit>().connectionRestored && widget.onRestoreInternetConnection != null) {
           debugPrint("internet connection restored ..");
           WidgetsBinding.instance.addPostFrameCallback((_) {
