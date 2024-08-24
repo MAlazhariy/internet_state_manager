@@ -30,6 +30,11 @@ class InternetStateOptions {
   /// If [NULL] it returns default values.
   late final InternetStateLabels labels;
 
+  /// ### Show logs.
+  ///
+  /// Default is [FALSE].
+  final bool showLogs;
+
   InternetStateOptions({
     InternetStateLabels? translations,
     this.errorBackgroundColor,

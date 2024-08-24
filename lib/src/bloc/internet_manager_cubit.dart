@@ -47,7 +47,6 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     });
   }
 
-  final _showLog = false;
 
   Future<void> checkConnection() async {
     if (_loading) return;
@@ -58,7 +57,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
       emit(state._loading());
     }
 
-    if (_showLog) debugPrint('>> Checking for connection...');
+    if (getOptions.showLogs) debugPrint('>> Checking for connection...');
 
     // check internet connection if there status connection
     bool result = false;
@@ -77,7 +76,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
       ),
     );
 
-    if (_showLog) {
+    if (getOptions.showLogs) {
       debugPrint(
           'connection: ${_localConnectionResult.map((e) => e.name).join(', ')} - ${state.status.isConnected ? "connected ✅" : "not connected ❌"}');
     }
