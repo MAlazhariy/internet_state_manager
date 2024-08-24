@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class InternetStateOptions {
   /// ### The duration periodic between each auto internet check.
   ///
-  /// If null it returns `12 seconds` Duration.
+  /// The default is `12 seconds` Duration.
   final Duration checkConnectionPeriodic;
+
+  /// ### The duration periodic between each auto internet check when disconnected state.
+  ///
+  /// Used when internet connection is lost, the check periodic will be set to this value
+  /// otherwise if null it will be set to [checkConnectionPeriodic].
+  final Duration? disconnectionCheckPeriodic;
 
   /// ### Set to [TRUE] to auto check internet connection periodically.
   ///
@@ -36,13 +42,18 @@ class InternetStateOptions {
   final bool showLogs;
 
   InternetStateOptions({
-    InternetStateLabels? translations,
+    /// ### The labels shown when internet disconnected.
+    ///
+    /// If [NULL] it returns default values.
+    InternetStateLabels? labels,
     this.errorBackgroundColor,
     this.onBackgroundColor,
     this.checkConnectionPeriodic = const Duration(seconds: 12),
     this.autoCheckConnection = true,
+    this.showLogs = false,
+    this.disconnectionCheckPeriodic,
   }) {
-    labels = translations ?? InternetStateLabels.defaultValues;
+    this.labels = labels ?? InternetStateLabels.defaultValues;
   }
 }
 
@@ -68,8 +79,7 @@ class InternetStateLabels {
     required this.tryAgainText,
   });
 
-  static InternetStateLabels get defaultValues =>
-      InternetStateLabels(
+  static InternetStateLabels get defaultValues => InternetStateLabels(
         noInternetTitle: () => 'No internet connection',
         descriptionText: () => 'Check your internet connection.',
         tryAgainText: () => 'Try again',

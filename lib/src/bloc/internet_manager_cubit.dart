@@ -86,8 +86,11 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
 
   void _startTimer() {
     if (getOptions.autoCheckConnection) {
+      final duration = state.status.isConnected || getOptions.disconnectionCheckPeriodic == null
+          ? getOptions.checkConnectionPeriodic
+          : getOptions.disconnectionCheckPeriodic!;
       _timer = Timer(
-        getOptions.checkConnectionPeriodic,
+        duration,
         checkConnection,
       );
     }
