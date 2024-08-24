@@ -1,4 +1,4 @@
-## [1.2.0] - 24-08-2024
+## [1.2.0]
 
 ### Enhancements
 - Optimized the emission of the **loading** state to occur only when disconnected and a local network (e.g., Wi-Fi) is available, reducing unnecessary state emissions.
@@ -14,7 +14,7 @@
 
 ---
 
-## [1.1.0] - 23-08-2024
+## [1.1.0]
 
 ### Added
 - Implemented a `Stream` that checks internet connectivity every 10 seconds, emitting a new state if the connection status changes.
