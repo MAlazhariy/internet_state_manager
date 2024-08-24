@@ -5,7 +5,9 @@ void main() {
   runApp(
     InternetStateManagerInitializer.init(
       options: InternetStateOptions(
-        checkConnectionPeriodic: const Duration(seconds: 5),
+        checkConnectionPeriodic: const Duration(seconds: 3),
+        disconnectionCheckPeriodic: const Duration(seconds: 1),
+        showLogs: true,
       ),
       child: const MyApp(),
     ),
@@ -15,15 +17,13 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Internet state manager',
       debugShowCheckedModeBanner: false,
-      home: InternetStateManager(
-        child: MyHomePage(),
-      ),
+      builder: (context, child) => InternetStateManager(child: child!),
+      home: const MyHomePage(),
     );
   }
 }
@@ -93,6 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            const Btn(
+              title: "Go to first screen",
+              screen: FirstScreen(),
+            ),
           ],
         ),
       ),
@@ -101,6 +105,74 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class FirstScreen extends StatelessWidget {
+  const FirstScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('First screen'),
+      ),
+      body: const Btn(
+        title: "Go to second screen",
+        screen: SecondScreen(),
+      ),
+    );
+  }
+}
+
+class SecondScreen extends StatefulWidget {
+  const SecondScreen({super.key});
+
+  @override
+  State<SecondScreen> createState() => _SecondScreenState();
+}
+
+class _SecondScreenState extends State<SecondScreen> {
+  String title = 'Second screen';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: InternetStateManager(
+        child: const FirstScreen(),
+        onRestoreInternetConnection: (){
+          setState(() {
+            title = "Internet connection restored";
+          });
+        },
+      ),
+    );
+  }
+}
+
+class Btn extends StatelessWidget {
+  const Btn({
+    super.key,
+    required this.title,
+    required this.screen,
+  });
+
+  final String title;
+  final Widget screen;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: TextButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+        },
+        child: Text(title),
+      ),
     );
   }
 }

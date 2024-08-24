@@ -28,10 +28,10 @@ Add the package to your `pubspec.yaml` under `dependencies:`:
 internet_state_manager:
   git:
     url: https://github.com/MAlazhariy/internet_state_manager.git
-    ref: v1.1.0
+    ref: v1.2.0
 ```
 
-### Android Configuration
+#### Android Configuration
 
 To ensure proper functionality on Android, especially in release mode, you need to add `INTERNET` and `ACCESS_NETWORK_STATE` permissions to your `AndroidManifest.xml`:
 
@@ -45,6 +45,8 @@ To ensure proper functionality on Android, especially in release mode, you need 
     <application
         ...
 ```
+
+----
 
 ### Usage
 
@@ -106,7 +108,7 @@ To ensure proper functionality on Android, especially in release mode, you need 
        // Access the connection status through state.status
        return Scaffold(
          body: Center(
-           child: state.status == InternetStatus.connected // or use state.status.isConnected (bool)
+           child: state.status.isConnected
                ? Text('You are connected to the internet')
                : Text('No internet connection'),
          ),
@@ -127,11 +129,12 @@ Here's an example:
    ```dart
    return InternetStateManager(
      onRestoreInternetConnection: () {
+       // Your custom logic here to execute when the internet connection is restored.
        setState(() {
-         initData(); // Your logic here to execute when the internet connection is restored.
+         initData(); 
        });
      },
-     child: // widget,
+     child: // your widget
    );
    ```
    In this example, the onRestoreInternetConnection callback is used to reinitialize data or update the UI when the internet connection is restored. This allows you to handle any necessary updates or actions that should occur once connectivity is regained.
