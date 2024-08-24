@@ -23,6 +23,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
   Timer? _timer;
 
   bool _connectionChanged = false;
+  bool _loading = false;
 
   /// Returns [TRUE] if there is an internet connection after the
   /// internet connection was offline. This means that the **connection
@@ -49,10 +50,13 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
   final _showLog = false;
 
   Future<void> checkConnection() async {
-    if (state.loading) return;
+    if (_loading) return;
     _timer?.cancel();
     _connectionChanged = false;
-    emit(state._loading());
+    _loading = true;
+    if (state.status.isDisconnected) {
+      emit(state._loading());
+    }
 
     if (_showLog) debugPrint('>> Checking for connection...');
 
@@ -77,6 +81,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
       debugPrint(
           'connection: ${_localConnectionResult.map((e) => e.name).join(', ')} - ${state.status.isConnected ? "connected ✅" : "not connected ❌"}');
     }
+    _loading = false;
     _startTimer();
   }
 
