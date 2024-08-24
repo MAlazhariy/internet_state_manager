@@ -54,7 +54,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     _timer?.cancel();
     _connectionChanged = false;
     _loading = true;
-    if (state.status.isDisconnected) {
+    if (state.status.isDisconnected && !disconnectedToLocalNetwork) {
       emit(state._loading());
     }
 
