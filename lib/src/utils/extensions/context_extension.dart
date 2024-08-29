@@ -8,4 +8,11 @@ extension ConncectionStatus on BuildContext {
   InternetState get internetState => read<InternetManagerCubit>().state.status;
   bool get isLoading => read<InternetManagerCubit>().state.loading;
   bool get isConnectionRestored => read<InternetManagerCubit>().connectionRestored;
+
+  /// Stream to listen for internet connection changes.
+  ///
+  /// You can use this stream logic directly on your code to listen to
+  /// internet connection changes only (**without listening to loading states**)
+
+  Stream<InternetState> get internetStateStream => read<InternetManagerCubit>().internetStateStream;
 }

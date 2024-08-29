@@ -1,3 +1,14 @@
+## [1.3.1]
+
+### Added
+- `internetStateStream` accessed from `context` to listen for internet connection changes only (**without listening to loading states**), i.e: `context.internetStateStream.listen((status){})`.
+
+### Fixed
+- ios 12+ known issue with `ConnectivityPlus` that get none even if the local network is available,
+the bloc is now check the real internet connection on `ios` **even if the local network is none**.
+
+---
+
 ## [1.2.0]
 
 ### Enhancements

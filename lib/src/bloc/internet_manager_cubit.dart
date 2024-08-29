@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -19,6 +20,15 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
   List<ConnectivityResult> _localConnectionResult = [];
   late final StreamSubscription<List<ConnectivityResult>> _localNetworkSubscription;
   final _internetConnectionChecker = InternetConnectionChecker.createInstance();
+  final _internetStreamController = StreamController<InternetState>.broadcast();
+
+  /// Stream to listen for internet connection changes.
+  ///
+  /// You can use this stream logic directly on your code to listen to
+  /// internet connection changes only (**without listening to loading states**)
+  Stream<InternetState> get internetStateStream async* {
+    yield* _internetStreamController.stream;
+  }
 
   Timer? _timer;
 
@@ -32,8 +42,10 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
 
   /// Return [TRUE] if the device disconnected to any local network
   /// i.e: **wifi** or **mobile data**.
-  bool get disconnectedToLocalNetwork =>
-      state.status.isInitialized && (_localConnectionResult.isEmpty || _localConnectionResult.contains(ConnectivityResult.none));
+  bool get disconnectedToLocalNetwork => state.status.isInitialized && _connectivityDisconnected;
+
+  bool get _connectivityDisconnected =>
+      _localConnectionResult.isEmpty || (_localConnectionResult.contains(ConnectivityResult.none) && !Platform.isIOS);
 
   Future<void> _initCheckLocalNetworkConnection() async {
     // start stream on local network connection
@@ -46,7 +58,6 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
       checkConnection();
     });
   }
-
 
   Future<void> checkConnection() async {
     if (_loading) return;
@@ -66,14 +77,15 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     }
 
     // update state if the result changed
-    if (result != state.status.isConnected) {
+    if (result != state.status.isConnected && state.status.isInitialized) {
       _connectionChanged = true;
+      _internetStreamController.add(_getStateFromBool(result));
+    } else if (!state.status.isInitialized) {
+      _internetStreamController.add(_getStateFromBool(result));
     }
 
     emit(
-      state._setState(
-        result ? InternetState.connected : InternetState.disconnected,
-      ),
+      state._setState(_getStateFromBool(result)),
     );
 
     if (getOptions.showLogs) {
@@ -98,10 +110,17 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
 
   void onRestoreInternetConnectionCalled() => _connectionChanged = false;
 
+  InternetState _getStateFromBool(bool result) {
+    return result ? InternetState.connected : InternetState.disconnected;
+  }
+
   @override
   Future<void> close() async {
     _timer?.cancel();
-    await _localNetworkSubscription.cancel();
+    await Future.wait([
+      _localNetworkSubscription.cancel(),
+      _internetStreamController.close(),
+    ]);
     return super.close();
   }
 }
