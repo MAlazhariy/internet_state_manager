@@ -47,7 +47,6 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     });
   }
 
-
   Future<void> checkConnection() async {
     if (_loading) return;
     _timer?.cancel();
@@ -66,14 +65,15 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     }
 
     // update state if the result changed
-    if (result != state.status.isConnected) {
+    if (result != state.status.isConnected && state.status.isInitialized) {
       _connectionChanged = true;
+      _internetStreamController.add(_getStateFromBool(result));
+    } else if (!state.status.isInitialized) {
+      _internetStreamController.add(_getStateFromBool(result));
     }
 
     emit(
-      state._setState(
-        result ? InternetState.connected : InternetState.disconnected,
-      ),
+      state._setState(_getStateFromBool(result)),
     );
 
     if (getOptions.showLogs) {
@@ -98,10 +98,17 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
 
   void onRestoreInternetConnectionCalled() => _connectionChanged = false;
 
+  InternetState _getStateFromBool(bool result) {
+    return result ? InternetState.connected : InternetState.disconnected;
+  }
+
   @override
   Future<void> close() async {
     _timer?.cancel();
-    await _localNetworkSubscription.cancel();
+    await Future.wait([
+      _localNetworkSubscription.cancel(),
+      _internetStreamController.close(),
+    ]);
     return super.close();
   }
 }
