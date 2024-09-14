@@ -1,7 +1,7 @@
-## [1.4.0]
+## [1.4.1]
 
 ### Added
-- `internetCheck` context extension to allow to check internet form context extension.
+- `internetCheck()` context extension to allow to check internet form context extension.
 
 ---
 

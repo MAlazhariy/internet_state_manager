@@ -28,7 +28,7 @@ Add the package to your `pubspec.yaml` under `dependencies:`:
 internet_state_manager:
   git:
     url: https://github.com/MAlazhariy/internet_state_manager.git
-    ref: v1.4.0
+    ref: v1.4.1
 ```
 
 #### Android Configuration
