@@ -1,3 +1,10 @@
+## [1.4.0]
+
+### Added
+- `internetCheck` context extension to allow to check internet form context extension.
+
+---
+
 ## [1.3.1]
 
 ### Added
