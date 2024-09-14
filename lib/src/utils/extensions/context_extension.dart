@@ -14,5 +14,5 @@ extension ConncectionStatus on BuildContext {
   /// You can use this stream logic directly on your code to listen to
   /// internet connection changes only (**without listening to loading states**)
   Stream<InternetState> get internetStateStream => read<InternetManagerCubit>().internetStateStream;
-  Future<void> get internetCheck => read<InternetManagerCubit>().checkConnection();
+  Future<void> internetCheck() => read<InternetManagerCubit>().checkConnection();
 }
