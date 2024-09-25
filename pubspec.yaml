@@ -13,7 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   connectivity_plus: ^6.0.5
-  internet_connection_checker: ^2.0.0
+  internet_connection_checker:
   bloc:
   flutter_bloc:
   equatable:
