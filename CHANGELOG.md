@@ -1,3 +1,10 @@
+## [1.6.0]
+
+### Added
+- Change `checkConnection` return type to `Future<bool>` to return if connection is available or not.
+
+---
+
 ## [1.5.0]
 
 ### Enhanced

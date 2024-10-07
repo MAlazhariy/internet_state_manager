@@ -59,8 +59,8 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     });
   }
 
-  Future<void> checkConnection() async {
-    if (_loading) return;
+  Future<bool> checkConnection() async {
+    if (_loading) return state.status.isConnected;
     _timer?.cancel();
     _connectionChanged = false;
     _loading = true;
@@ -96,6 +96,8 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     if (getOptions.autoCheckConnection || !connectionResult) {
       _startTimer();
     }
+
+    return connectionResult;
   }
 
   void _startTimer() {
