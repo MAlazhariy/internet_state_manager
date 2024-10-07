@@ -71,21 +71,21 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     if (getOptions.showLogs) debugPrint('>> Checking for connection...');
 
     // check internet connection if there status connection
-    bool result = false;
+    bool connectionResult = false;
     if (!disconnectedToLocalNetwork) {
-      result = await _internetConnectionChecker.hasConnection;
+      connectionResult = await _internetConnectionChecker.hasConnection;
     }
 
     // update state if the result changed
-    if (result != state.status.isConnected && state.status.isInitialized) {
+    if (connectionResult != state.status.isConnected && state.status.isInitialized) {
       _connectionChanged = true;
-      _internetStreamController.add(_getStateFromBool(result));
+      _internetStreamController.add(_getStateFromBool(connectionResult));
     } else if (!state.status.isInitialized) {
-      _internetStreamController.add(_getStateFromBool(result));
+      _internetStreamController.add(_getStateFromBool(connectionResult));
     }
 
     emit(
-      state._setState(_getStateFromBool(result)),
+      state._setState(_getStateFromBool(connectionResult)),
     );
 
     if (getOptions.showLogs) {
@@ -93,7 +93,9 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
           'connection: ${_localConnectionResult.map((e) => e.name).join(', ')} - ${state.status.isConnected ? "connected ✅" : "not connected ❌"}');
     }
     _loading = false;
-    _startTimer();
+    if (getOptions.autoCheckConnection || !connectionResult) {
+      _startTimer();
+    }
   }
 
   void _startTimer() {
