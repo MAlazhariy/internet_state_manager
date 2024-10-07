@@ -1,3 +1,10 @@
+## [1.5.0]
+
+### Enhanced
+- Recheck the connection if `autoCheckConnection` is TRUE or if connection lost.
+
+---
+
 ## [1.4.2]
 
 ### Fixed
