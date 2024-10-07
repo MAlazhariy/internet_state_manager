@@ -23,6 +23,13 @@ dev_dependencies:
     sdk: flutter
   flutter_lints:
 
+topics:
+  - internet
+  - internet connection
+  - connectivity
+  - internet state manager
+  - auto check internet
+
 flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
