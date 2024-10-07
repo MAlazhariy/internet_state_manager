@@ -1,4 +1,4 @@
-## [1.6.0]
+## [1.6.1]
 
 ### Added
 - Change `checkConnection` return type to `Future<bool>` to return if connection is available or not.
