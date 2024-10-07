@@ -1,3 +1,10 @@
+## [1.4.2]
+
+### Fixed
+- internet_connection_checker version, set to any
+
+---
+
 ## [1.4.1]
 
 ### Added
