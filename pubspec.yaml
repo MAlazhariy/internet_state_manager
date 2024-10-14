@@ -3,7 +3,7 @@ description: A Flutter package for seamless internet connection management. Auto
 author: MAlazhariy
 homepage: https://github.com/MAlazhariy/internet_state_manager
 issue_tracker: https://github.com/MAlazhariy/internet_state_manager/issues
-version: 1.6.1
+version: 1.7.0
 
 environment:
   sdk: '>=3.1.2 <4.0.0'

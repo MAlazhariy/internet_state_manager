@@ -1,3 +1,10 @@
+## [1.7.0]
+
+### Added
+- `checkConnectionTimeout` option to set the timeout duration when checking real internet connection.
+
+---
+
 ## [1.6.1]
 
 ### Added
