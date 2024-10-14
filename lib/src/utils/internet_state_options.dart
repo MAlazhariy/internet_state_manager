@@ -41,6 +41,11 @@ class InternetStateOptions {
   /// Default is [FALSE].
   final bool showLogs;
 
+  /// ### Timeout duration when checking real internet connection.
+  ///
+  /// Default is 3 seconds.
+  late final Duration checkConnectionTimeout;
+
   InternetStateOptions({
     /// ### The labels shown when internet disconnected.
     ///
@@ -52,6 +57,7 @@ class InternetStateOptions {
     this.autoCheckConnection = true,
     this.showLogs = false,
     this.disconnectionCheckPeriodic,
+    this.checkConnectionTimeout = const Duration(seconds: 3),
   }) {
     this.labels = labels ?? InternetStateLabels.defaultValues;
   }

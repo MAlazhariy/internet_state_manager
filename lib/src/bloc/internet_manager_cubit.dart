@@ -6,6 +6,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:internet_state_manager/src/utils/custom_check_options.dart';
 import 'package:internet_state_manager/src/utils/enums/internet_state_enum.dart';
 import 'package:internet_state_manager/internet_state_manager.dart';
 import 'package:internet_state_manager/src/utils/internet_state_manager_controller.dart';
@@ -19,7 +20,9 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
 
   List<ConnectivityResult> _localConnectionResult = [];
   late final StreamSubscription<List<ConnectivityResult>> _localNetworkSubscription;
-  final _internetConnectionChecker = InternetConnectionChecker.createInstance();
+  final _internetConnectionChecker = InternetConnectionChecker.createInstance(
+    customCheckOptions: customCheckOptions,
+  );
   final _internetStreamController = StreamController<InternetState>.broadcast();
 
   /// Stream to listen for internet connection changes.
