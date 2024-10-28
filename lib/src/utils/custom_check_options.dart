@@ -1,4 +1,4 @@
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:internet_state_manager/src/utils/internet_state_manager_controller.dart';
 
 final _addresses = [
@@ -8,9 +8,9 @@ final _addresses = [
   'https://reqres.in/api/users/1',
 ];
 
-final customCheckOptions = List<AddressCheckOption>.generate(
+final customCheckOptions = List<InternetCheckOption>.generate(
   _addresses.length,
-  (i) => AddressCheckOption(
+  (i) => InternetCheckOption(
     uri: Uri.parse(_addresses[i]),
     timeout: getOptions.checkConnectionTimeout,
   ),

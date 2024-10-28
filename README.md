@@ -28,12 +28,12 @@ Add the package to your `pubspec.yaml` under `dependencies:`:
 internet_state_manager:
   git:
     url: https://github.com/MAlazhariy/internet_state_manager.git
-    ref: v1.7.0
+    ref: v1.7.1
 ```
 
 #### Android Configuration
 
-To ensure proper functionality on Android, especially in release mode, you need to add `INTERNET` and `ACCESS_NETWORK_STATE` permissions to your `AndroidManifest.xml`:
+To ensure proper functionality on Android, especially in release mode, you need to add `INTERNET` and `ACCESS_NETWORK_STATE` permissions into your `AndroidManifest.xml`:
 
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -143,6 +143,20 @@ Here's an example:
 ----
 
 For instance, if the connection is lost, the package will display a custom or default widget across the app, and once the connection is restored, it will seamlessly return to the previous state.
+**Note**: If you use or extend this package in your projects, please consider giving it a star on GitHub. ⭐️
+
+
+## Credits
+
+This package was developed and maintained by [Mostafa Alazhariy](https://github.com/MAlazhariy).
+
+This package depends on the following packages:
+- [connectivity_plus](https://pub.dev/packages/connectivity_plus) to check for local network connection for fast and efficient connectivity checking.
+- [internet_connection_checker_plus](https://pub.dev/packages/internet_connection_checker_plus) which depends on [internet_connection_checker](https://pub.dev/packages/internet_connection_checker) to check for an actual internet connection beyond verifying a local network connection.
+
+---
+
+Feel free to contribute to this project by submitting issues, creating pull requests, or sharing your ideas to make it better!
 
 
 <!--
