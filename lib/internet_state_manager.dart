@@ -1,4 +1,4 @@
-library internet_state_manager;
+library;
 
 export 'src/widgets/internet_state_manager_widget.dart';
 export 'src/utils/internet_state_options.dart';

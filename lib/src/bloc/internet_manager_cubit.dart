@@ -5,7 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:internet_state_manager/src/utils/custom_check_options.dart';
 import 'package:internet_state_manager/src/utils/enums/internet_state_enum.dart';
 import 'package:internet_state_manager/internet_state_manager.dart';
@@ -20,8 +20,9 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
 
   List<ConnectivityResult> _localConnectionResult = [];
   late final StreamSubscription<List<ConnectivityResult>> _localNetworkSubscription;
-  final _internetConnectionChecker = InternetConnectionChecker.createInstance(
+  final _networkConnection = InternetConnection.createInstance(
     customCheckOptions: customCheckOptions,
+    useDefaultOptions: false,
   );
   final _internetStreamController = StreamController<InternetState>.broadcast();
 
@@ -76,7 +77,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     // check internet connection if there status connection
     bool connectionResult = false;
     if (!disconnectedToLocalNetwork) {
-      connectionResult = await _internetConnectionChecker.hasConnection;
+      connectionResult = await _networkConnection.hasInternetAccess;
     }
 
     // update state if the result changed

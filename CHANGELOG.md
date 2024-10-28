@@ -1,3 +1,10 @@
+## [1.7.1]
+
+### Fix
+- Removed the `internet_connection_checker` package, as recent versions were removed from pub.dev due to licensing issues.
+- Replaced `internet_connection_checker` with `internet_connection_checker_plus` package to ensure continued functionality and compliance.
+
+---
 ## [1.7.0]
 
 ### Added
