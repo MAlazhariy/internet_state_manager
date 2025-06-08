@@ -7,6 +7,10 @@
 - Introduced a new `initialize()` method in `InternetStateManagerInitializer` that performs a local network connectivity check **before** the app starts.  
   This ensures that the internet state is correctly initialized and available from the first frame of the app.
 
+- Improved `NoInternetBottomWidget` UI by adding bottom padding as a Safe area, ensuring it displays correctly above system UI.
+
+- Added a ready-to-use `NoInternetScreen` widget that automatically checks internet connectivity at intervals defined by `checkConnectionPeriodic` in `InternetStateOptions` (default: `Duration(seconds: 12)`). This periodic check runs only if `autoCheckConnection` is set to `true` (default).
+
 #### Updated Initialization Example:
 ```dart
 void main() async {
@@ -22,6 +26,19 @@ void main() async {
   );
 }
 ```
+
+#### New Usage
+
+- Using `InternetStateManager` without `builder` will automatically display **NoInternetBottomWidget** at the bottom of the screen when the internet is **disconnected**.
+
+- For full-screen custom handling, use `InternetStateManager.builder` to render your own widget, or provide `NoInternetScreen` to `InternetStateManager` like this:
+  ```dart
+    InternetStateManager(
+      noInternetScreen: NoInternetScreen(), // Shows this screen when offline, or pass your custom screen.
+      child: // Your screen here,
+    );
+  ```
+
 
 ### [1.7.1]
 
