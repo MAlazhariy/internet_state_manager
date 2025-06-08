@@ -19,13 +19,14 @@ enum InternetState {
   connected,
 
   /// The internet connection is disconnected.
-  disconnected,
-}
+  disconnected;
 
-extension GetInternetState on InternetState {
+  /// The internet connection is **INITIALIZED**.
   bool get isInitialized => this != InternetState.init;
 
+  /// The internet connection is **CONNECTED**.
   bool get isConnected => this == InternetState.connected;
 
+  /// The internet connection is **DISCONNECTED**.
   bool get isDisconnected => this == InternetState.disconnected;
 }

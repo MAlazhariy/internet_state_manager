@@ -1,8 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:internet_state_manager/internet_state_manager.dart';
 import 'package:internet_state_manager/src/bloc/internet_manager_cubit.dart';
 import 'package:internet_state_manager/src/utils/internet_state_manager_controller.dart';
-import 'package:internet_state_manager/src/widgets/no_internet_screen.dart';
+import 'package:internet_state_manager/src/widgets/no_internet_bottom_widget.dart';
 import 'package:flutter/material.dart';
 
 class InternetStateManager extends StatefulWidget {
@@ -72,13 +71,13 @@ class _InternetStateManagerState extends State<InternetStateManager> {
     return BlocBuilder<InternetManagerCubit, InternetManagerState>(
       builder: (context, state) {
         if (getOptions.showLogs) {
-          debugPrint('> state changed: $state - ${counter++}');
+          debugPrint('> state changed: $state (${counter++})');
         }
         if (state.status.isDisconnected) {
           return widget.noInternetScreen ?? _DisconnectedWidget(parent: widget);
         } else if (context.read<InternetManagerCubit>().connectionRestored && widget.onRestoreInternetConnection != null) {
           if (getOptions.showLogs) {
-            debugPrint("internet connection restored ..");
+            debugPrint("🔄 Internet connection restored ..");
           }
           WidgetsBinding.instance.addPostFrameCallback((_) {
             widget.onRestoreInternetConnection?.call();

@@ -14,9 +14,7 @@ import 'package:internet_state_manager/src/utils/internet_state_manager_controll
 part 'internet_manager_state.dart';
 
 class InternetManagerCubit extends Cubit<InternetManagerState> {
-  InternetManagerCubit() : super(const InternetManagerState.init()) {
-    _initCheckLocalNetworkConnection();
-  }
+  InternetManagerCubit() : super(const InternetManagerState.init());
 
   List<ConnectivityResult> _localConnectionResult = [];
   late final StreamSubscription<List<ConnectivityResult>> _localNetworkSubscription;
@@ -51,10 +49,10 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
   bool get _connectivityDisconnected =>
       _localConnectionResult.isEmpty || (_localConnectionResult.contains(ConnectivityResult.none) && !Platform.isIOS);
 
-  Future<void> _initCheckLocalNetworkConnection() async {
+  Future<void> initCheckLocalNetworkConnection() async {
     // start stream on local network connection
     _localConnectionResult = await Connectivity().checkConnectivity();
-    checkConnection();
+    await checkConnection();
 
     // init stream on local network
     _localNetworkSubscription = Connectivity().onConnectivityChanged.listen((result) {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:internet_state_manager/internet_state_manager.dart';
 
-void main() {
+void main() async {
   runApp(
-    InternetStateManagerInitializer.init(
+    InternetStateManagerInitializer(
       options: InternetStateOptions(
         checkConnectionPeriodic: const Duration(seconds: 3),
         disconnectionCheckPeriodic: const Duration(seconds: 1),
