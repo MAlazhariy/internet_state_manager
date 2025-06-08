@@ -1,3 +1,4 @@
+import 'package:internet_state_manager/src/not_initialized_exception.dart' show NotInitializedException;
 import 'package:internet_state_manager/src/utils/internet_state_options.dart';
 
 InternetStateOptions get getOptions => InternetStateManagerController.instance.options;
@@ -12,7 +13,7 @@ class InternetStateManagerController {
   factory InternetStateManagerController.init({
     required InternetStateOptions options,
   }) =>
-      _instance ??= InternetStateManagerController._createInstance(options: options);
+      _instance = InternetStateManagerController._createInstance(options: options);
 
   /// Returns an instance of [InternetStateManagerController].
   ///
@@ -21,25 +22,16 @@ class InternetStateManagerController {
 
   /// Get instance of [InternetStateManagerController].
   static InternetStateManagerController get instance {
-    checkInstanceIsCreated();
-    return _instance!;
+    return _instance ??= _defaultInstance();
+  }
+
+  static InternetStateManagerController _defaultInstance() {
+    return InternetStateManagerController._createInstance(options: InternetStateOptions());
   }
 
   static void checkInstanceIsCreated() {
     if (_instance == null) {
-      throw Exception(
-        '''InternetStateManagerInitializer has not been initialized before using `InternetStateManager`.
-Your widget must be wrapped by `InternetStateManagerInitializer.init` first before using the package.\n\n
-Please ensure you have initialized the package and your `main` should be like:
-```
-     runApp(
-       InternetStateManagerInitializer.init(
-         child: const MyApp(),
-       ),
-     );
-```
-''',
-      );
+      throw NotInitializedException();
     }
   }
 }
