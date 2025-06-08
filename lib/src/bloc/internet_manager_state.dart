@@ -38,4 +38,7 @@ class InternetManagerState extends Equatable {
 
   @override
   List<Object> get props => [status, loading];
+
+  @override
+  String toString() => 'InternetState(${status.name.toUpperCase()}, loading: $loading)';
 }
