@@ -25,10 +25,7 @@ A Flutter package designed to manage internet connection states seamlessly withi
 Add the package to your `pubspec.yaml` under `dependencies:`:
 
 ```yaml
-internet_state_manager:
-  git:
-    url: https://github.com/MAlazhariy/internet_state_manager.git
-    ref: v1.7.1
+  internet_state_manager: <latest_version>
 ```
 
 #### Android Configuration
@@ -46,23 +43,51 @@ To ensure proper functionality on Android, especially in release mode, you need 
         ...
 ```
 
+#### iOS Configuration
+
+For iOS 14+ you must request permission to access the local network so that the package can bind to sockets and perform network checks. Add these keys in your ios/Runner/Info.plist inside the main <dict>:
+
+```
+<key>NSLocalNetworkUsageDescription</key>
+<string>This app requires access to the local network to monitor connectivity status.</string>
+```
+
+These setting ensure permission is granted whether you perform connectivity checks before or after runApp().
+
 ----
 
 ### Usage
 
 1. **Initialization**
 
-   Wrap your app's root widget with `InternetStateManagerInitializer.init` in the `main()` function:
+   To start using the package, you need to initialize it before running your app.
 
-   ```dart
-   void main() {
-     runApp(
-       InternetStateManagerInitializer.init(
+   Wrap your app’s root widget with `InternetStateManagerInitializer`, and don’t forget to call the required `initialize()` method before runApp:
+
+```dart
+void main() async {
+   // ✅ Ensures Flutter engine is initialized before any async code
+   WidgetsFlutterBinding.ensureInitialized();
+
+   // ✅ REQUIRED: Initializes the internet connection state manager
+   await InternetStateManagerInitializer.initialize();
+
+   // ✅ Wrap your app with InternetStateManagerInitializer
+   runApp(
+      InternetStateManagerInitializer(
+         options: InternetStateOptions(
+            checkConnectionPeriodic: const Duration(seconds: 3),
+            disconnectionCheckPeriodic: const Duration(seconds: 1),
+            showLogs: true,
+         ),
          child: const MyApp(),
-       ),
-     );
-   }
-   ```
+      ),
+   );
+}
+```
+
+> ⚠️ Do not forget to call `initialize()` before `runApp()`.
+
 
 2. **Wrap your Screens**
 
@@ -162,46 +187,3 @@ This package depends on the following packages:
 <a href="https://github.com/MAlazhariy/internet_state_manager/graphs/contributors"></a>
 
 Feel free to contribute to this project by submitting issues, creating pull requests, or sharing your ideas to make it better!
-
-
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
-
-
-** short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-** List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-** List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-** Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
-```
-
-## Additional information
-
-** Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
-
--->
