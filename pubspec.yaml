@@ -23,11 +23,11 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
 topics:
-  - internet
-  - internet-connection
   - connectivity
-  - internet-state-manager
-  - auto-check-internet
+  - network
+  - offline
+  - internet
+  - connection-checker
 
 flutter:
   # assets:
