@@ -27,3 +27,4 @@ export 'src/utils/internet_state_options.dart';
 export 'src/internet_state_manager_app.dart';
 export 'src/utils/enums/internet_state_enum.dart';
 export 'src/utils/extensions/context_extension.dart';
+export 'src/interceptors/internet_state_manager_interceptor.dart';

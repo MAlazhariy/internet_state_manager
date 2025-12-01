@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.10.0
+
+ - **FEAT**: Added optional `InternetStateManagerInterceptor` for Dio users. Triggers a non-blocking connectivity check on every HTTP request to keep the internet state fresh. This is completely optional and the package works without it.
+
+ - **FEAT**: Added static `isConnected` getter and `checkConnection()` method to `InternetStateManagerInitializer` for accessing connectivity state without `BuildContext`.
+
 ## 1.9.0
 
  - **ENHANCED**: Introduced a new `initialize()` method in `InternetStateManagerInitializer` that performs a local network connectivity check **before** the app starts. This ensures that the internet state is correctly initialized and available from the first frame of the app.

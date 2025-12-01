@@ -42,7 +42,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  internet_state_manager: ^1.9.0
+  internet_state_manager: ^1.10.0
 ```
 
 Then run:
@@ -224,6 +224,22 @@ InternetStateOptions(
 ---
 
 ## 🛠️ Advanced Usage
+
+<details>
+<summary><b>Dio Interceptor (Optional)</b></summary>
+
+If you use Dio, you can optionally add the interceptor to keep connectivity state fresh with each HTTP request:
+
+```dart
+final dio = Dio();
+dio.interceptors.add(InternetStateManagerInterceptor());
+```
+
+The interceptor triggers a non-blocking connectivity check on every request, keeping the UI state updated without slowing down your API calls.
+
+> **Note:** This is completely optional. The package works perfectly without it.
+
+</details>
 
 <details>
 <summary><b>Context Extensions</b></summary>
