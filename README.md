@@ -7,24 +7,15 @@
 
 A powerful Flutter package for seamless internet connection management. **Not just another connectivity checker** — it's a complete solution that handles, monitors, and manages internet states across your entire app with minimal code! 🚀
 
-## ✨ Why Internet State Manager?
+## ⚡ Key Features
 
-| Feature | Description |
-|---------|-------------|
-| 🎯 **Accurate Detection** | Goes beyond Wi-Fi checks — verifies actual internet access |
-| 🔄 **Auto Recovery** | Automatically restores app state when connection returns |
-| 🎨 **Customizable UI** | Built-in widgets + full customization support |
-| ⚡ **Minimal Code** | Wrap once, manage everywhere |
-| 📡 **Real-time Updates** | Stream-based connectivity monitoring |
-
----
-
-## 🤔 Why Use This Package?
-
-- ⏱️ **Save time** — No need to write connectivity checks on every screen
-- 🎯 **Better UX** — Auto-handle offline states with built-in UI
-- 🔄 **Auto-refresh** — Fetch fresh data when connection restores via `onConnectionRestored`
-- 🧩 **Less boilerplate** — Wrap once, works everywhere
+- 🧩 **Minimal Code** — Wrap once, works everywhere — no boilerplate
+- ⏱️ **Save Time** — Eliminate repetitive connectivity checks on every screen
+- 🎯 **Better UX** — Auto-handle offline states with smooth built-in UI transitions
+- 🔄 **Smart Auto-Refresh** — Fetch fresh data automatically when connection restores via `onConnectionRestored`
+- 🎯 **Accurate Detection** — Goes beyond Wi-Fi checks — verifies actual internet access
+- 📡 **Real-time Monitoring** — Stream-based connectivity updates with customizable check intervals
+- 🎨 **Fully Customizable** — Use built-in widgets or create your own custom offline screens
 
 ---
 
