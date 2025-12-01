@@ -5,22 +5,22 @@ issue_tracker: https://github.com/MAlazhariy/internet_state_manager/issues
 version: 1.9.0
 
 environment:
-  sdk: '>=3.1.2 <4.0.0'
-  flutter: ">=1.17.0"
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=3.19.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  connectivity_plus: ^6.1.4
-  internet_connection_checker_plus: ^2.5.2
-  bloc: ^9.0.0
+  connectivity_plus: ^7.0.0
+  internet_connection_checker_plus: ^2.9.1
+  bloc: ^9.1.0
   flutter_bloc: ^9.1.1
   equatable: ^2.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 topics:
   - internet
