@@ -282,10 +282,10 @@ class MyApp extends StatelessWidget {
 
 ---
 
+<!--
 ## 📱 Screenshots
 
-<!-- TODO: Add screenshots/GIFs -->
-<!--
+TODO: Add screenshots/GIFs
 | Connected | Disconnected | Restoring |
 |:---------:|:------------:|:---------:|
 | ![Connected](assets/connected.png) | ![Disconnected](assets/disconnected.png) | ![Restoring](assets/restoring.gif) |
