@@ -3,6 +3,7 @@ import 'package:internet_state_manager/src/bloc/internet_manager_cubit.dart';
 import 'package:internet_state_manager/src/utils/internet_state_manager_controller.dart';
 import 'package:internet_state_manager/src/widgets/no_internet_bottom_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_state_manager/src/utils/logger.dart';
 
 /// A widget that manages and displays UI based on internet connectivity state.
 ///
@@ -103,14 +104,14 @@ class _InternetStateManagerState extends State<InternetStateManager> {
     return BlocBuilder<InternetManagerCubit, InternetManagerState>(
       builder: (context, state) {
         if (getOptions.showLogs) {
-          debugPrint('> state changed: $state (${counter++})');
+          logger.d('state changed: $state (${counter++})');
         }
         if (state.status.isDisconnected) {
           return widget.noInternetScreen ?? _DisconnectedWidget(parent: widget);
         } else if (context.read<InternetManagerCubit>().connectionRestored &&
             widget.onRestoreInternetConnection != null) {
           if (getOptions.showLogs) {
-            debugPrint("🔄 Internet connection restored ..");
+            logger.i("Internet connection restored");
           }
           WidgetsBinding.instance.addPostFrameCallback((_) {
             widget.onRestoreInternetConnection?.call();

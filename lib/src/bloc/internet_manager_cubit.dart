@@ -10,6 +10,7 @@ import 'package:internet_state_manager/src/utils/custom_check_options.dart';
 import 'package:internet_state_manager/src/utils/enums/internet_state_enum.dart';
 import 'package:internet_state_manager/internet_state_manager.dart';
 import 'package:internet_state_manager/src/utils/internet_state_manager_controller.dart';
+import 'package:internet_state_manager/src/utils/logger.dart';
 
 part 'internet_manager_state.dart';
 
@@ -75,7 +76,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
       emit(state._loading());
     }
 
-    if (getOptions.showLogs) debugPrint('>> Checking for connection...');
+    if (getOptions.showLogs) logger.i('Checking for connection...');
 
     // check internet connection if there status connection
     bool connectionResult = false;
@@ -97,7 +98,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     );
 
     if (getOptions.showLogs) {
-      debugPrint(
+      logger.i(
           'connection: ${_localConnectionResult.map((e) => e.name).join(', ')} - ${state.status.isConnected ? "connected ✅" : "not connected ❌"}');
     }
     _loading = false;
