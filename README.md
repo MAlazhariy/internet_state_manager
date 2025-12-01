@@ -3,7 +3,7 @@
 # Internet State Manager 🌐
 
 [![pub package](https://img.shields.io/pub/v/internet_state_manager.svg)](https://pub.dev/packages/internet_state_manager)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: BSD 3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](LICENSE)
 
 A powerful Flutter package for seamless internet connection management. **Not just another connectivity checker** — it's a complete solution that handles, monitors, and manages internet states across your entire app with minimal code! 🚀
 
