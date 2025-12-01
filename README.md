@@ -1,189 +1,300 @@
 [![Stand With Palestine](https://raw.githubusercontent.com/TheBSD/StandWithPalestine/main/banner-no-action.svg)](https://thebsd.github.io/StandWithPalestine)
 
+# Internet State Manager 🌐
 
-<!-- [![pub package](https://img.shields.io/pub/v/requests_inspector.svg)](https://pub.dev/packages/requests_inspector) -->
+[![pub package](https://img.shields.io/pub/v/internet_state_manager.svg)](https://pub.dev/packages/internet_state_manager)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+A powerful Flutter package for seamless internet connection management. **Not just another connectivity checker** — it's a complete solution that handles, monitors, and manages internet states across your entire app with minimal code! 🚀
 
-# Internet State Manager
+## ✨ Why Internet State Manager?
 
-## Overview
+| Feature | Description |
+|---------|-------------|
+| 🎯 **Accurate Detection** | Goes beyond Wi-Fi checks — verifies actual internet access |
+| 🔄 **Auto Recovery** | Automatically restores app state when connection returns |
+| 🎨 **Customizable UI** | Built-in widgets + full customization support |
+| ⚡ **Minimal Code** | Wrap once, manage everywhere |
+| 📡 **Real-time Updates** | Stream-based connectivity monitoring |
 
-A Flutter package designed to manage internet connection states seamlessly within applications. It ensures an uninterrupted user experience by implementing a reliable mechanism to handle internet connectivity issues and automatically restore the application state once the connection is reestablished.
+---
 
-## Features
+## 📋 Requirements
 
-- **Accurate Internet Connection Detection:** The package accurately checks for an actual internet connection beyond verifying a Wi-Fi connection.
-- **Ease of Use:** Simplifies the process by reducing the code needed to manage internet connectivity on different screens within your app.
-- **Customizable Widgets:** Automatically displays either the package's built-in widget or a custom widget when the internet connection is lost, and periodically checks to update the connection status.
-- **Builder Widget:** Provides a `builder` widget that allows for extensive customization. You can use this widget to build a custom interface based on the internet connection status. This feature gives you full control over what to display depending on whether the internet is connected or not. The `builder` widget provides access to the current `InternetManagerState`, which you can use to check the connection status via `state.status`.
-- **Automatic Data Fetching:** Executes custom functions once the internet connection is restored, ensuring a smooth user experience without the need to reload or reopen the app.
+| Platform | Minimum Version |
+|----------|-----------------|
+| Flutter | ≥ 3.19.0 |
+| Dart | ≥ 3.3.0 \<4.0.0 |
+| iOS | ≥ 12.0 |
+| macOS | ≥ 10.14 |
+| Java | 17 |
+| Android Gradle Plugin | ≥ 8.12.1 |
+| Gradle Wrapper | ≥ 8.13 |
 
-## Getting Started
+---
 
-### 🔩 Installation
+## 🚀 Getting Started
 
-Add the package to your `pubspec.yaml` under `dependencies:`:
+<details open>
+<summary><b>Installation</b></summary>
+
+Add to your `pubspec.yaml`:
 
 ```yaml
-  internet_state_manager: <latest_version>
+dependencies:
+  internet_state_manager: ^1.9.0
 ```
 
-#### Android Configuration
+Then run:
 
-To ensure proper functionality on Android, especially in release mode, you need to add `INTERNET` and `ACCESS_NETWORK_STATE` permissions into your `AndroidManifest.xml`:
+```bash
+flutter pub get
+```
+
+</details>
+
+<details open>
+<summary><b>Platform Configuration</b></summary>
+
+### Android
+
+Add these permissions to `android/app/src/main/AndroidManifest.xml`:
 
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <!-- Permissions for internet_state_manager -->
+    <!-- Required for internet_state_manager -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     
-    <application
-        ...
+    <application ...>
 ```
 
-#### iOS Configuration
+### iOS
 
-For iOS 14+ you must request permission to access the local network so that the package can bind to sockets and perform network checks. Add these keys in your ios/Runner/Info.plist inside the main <dict>:
+Add to `ios/Runner/Info.plist`:
 
-```
+```xml
 <key>NSLocalNetworkUsageDescription</key>
 <string>This app requires access to the local network to monitor connectivity status.</string>
 ```
 
-These setting ensure permission is granted whether you perform connectivity checks before or after runApp().
-
-----
-
-### Usage
-
-1. **Initialization**
-
-   To start using the package, you need to initialize it before running your app.
-
-   Wrap your app’s root widget with `InternetStateManagerInitializer`, and don’t forget to call the required `initialize()` method before runApp:
-
-```dart
-void main() async {
-   // ✅ Ensures Flutter engine is initialized before any async code
-   WidgetsFlutterBinding.ensureInitialized();
-
-   // ✅ REQUIRED: Initializes the internet connection state manager
-   await InternetStateManagerInitializer.initialize();
-
-   // ✅ Wrap your app with InternetStateManagerInitializer
-   runApp(
-      InternetStateManagerInitializer(
-         options: InternetStateOptions(
-            checkConnectionPeriodic: const Duration(seconds: 3),
-            disconnectionCheckPeriodic: const Duration(seconds: 1),
-            showLogs: true,
-         ),
-         child: const MyApp(),
-      ),
-   );
-}
-```
-
-> ⚠️ Do not forget to call `initialize()` before `runApp()`.
-
-
-2. **Wrap your Screens**
-
-   To handle the internet connection state on your screens, wrap the desired screen with `InternetStateManager`, like:
-
-   ```dart
-   return InternetStateManager(
-     child: Scaffold(
-       body: Center(
-         child: Text('Content of the screen'),
-       ),
-     ),
-   );
-   ```
-----
-
-
-<!-- **Use in global App**
-
-   If you want to manage the internet connection state across the entire app without wrapping each screen individually, you can wrap the `MaterialApp` with `InternetStateManager` like this:
-
-   ```dart
-   return MaterialApp(
-     // other properties...
-     home: const InternetStateManager(
-       child: HomeScreen(),
-     ),
-   );
-   ```
-
-   By wrapping the MaterialApp, you ensure that the InternetStateManager monitors the internet connection for the entire application. This means that any screen within your app will automatically respond to internet connectivity changes without the need to wrap each screen individually.
--->   
-
-## Customizing with Builder Widget
-
-   You can use `InternetStateManager.builder` widget to customize how your app handles internet connection states. This widget allows you to build the UI based on the **internet connection status**.
-
-   Here's an example:
-
-   ```dart
-   return InternetStateManager.builder(
-     builder: (context, state) {
-       // Access the connection status through state.status
-       return Scaffold(
-         body: Center(
-           child: state.status.isConnected
-               ? Text('You are connected to the internet')
-               : Text('No internet connection'),
-         ),
-       );
-     },
-   );
-   ```
-
-   In this example, you can customize the UI according to whether the internet is connected or not. The `state.status` provides the current internet connection status, allowing you to display different content based on the connection state.
-
-
-## Handling Connection Restoration
-
-The `InternetStateManager` provides a callback for when the internet connection is restored after being disconnected. Use the `onRestoreInternetConnection` property to execute logic or update the UI when the connection is re-established.
-
-Here's an example:
-   
-   ```dart
-   return InternetStateManager(
-     onRestoreInternetConnection: () {
-       // Your custom logic here to execute when the internet connection is restored.
-       setState(() {
-         initData(); 
-       });
-     },
-     child: // your widget
-   );
-   ```
-   In this example, the onRestoreInternetConnection callback is used to reinitialize data or update the UI when the internet connection is restored. This allows you to handle any necessary updates or actions that should occur once connectivity is regained.
-
-
-----
-
-For instance, if the connection is lost, the package will display a custom or default widget across the app, and once the connection is restored, it will seamlessly return to the previous state.
-**Note**: If you use or extend this package in your projects, please consider giving it a star on GitHub. ⭐️
-
-
-## Credits
-
-This package was developed and maintained by [Mostafa Alazhariy](https://github.com/MAlazhariy).
-
-This package depends on the following packages:
-- [connectivity_plus](https://pub.dev/packages/connectivity_plus) to check for local network connection for fast and efficient connectivity checking.
-- [internet_connection_checker_plus](https://pub.dev/packages/internet_connection_checker_plus) which depends on [internet_connection_checker](https://pub.dev/packages/internet_connection_checker) to check for an actual internet connection beyond verifying a local network connection.
+</details>
 
 ---
 
-### Contributors thanks
+## 📖 Usage
 
-![contributors](https://contributors-img.firebaseapp.com/image?repo=MAlazhariy/internet_state_manager)
-<a href="https://github.com/MAlazhariy/internet_state_manager/graphs/contributors"></a>
+<details open>
+<summary><b>1. Initialize the Package</b></summary>
 
-Feel free to contribute to this project by submitting issues, creating pull requests, or sharing your ideas to make it better!
+Wrap your app with `InternetStateManagerInitializer`:
+
+```dart
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // ⚠️ REQUIRED: Initialize before runApp
+  await InternetStateManagerInitializer.initialize();
+
+  runApp(
+    InternetStateManagerInitializer(
+      options: InternetStateOptions(
+        checkConnectionPeriodic: const Duration(seconds: 3),
+        showLogs: true,
+      ),
+      child: const MyApp(),
+    ),
+  );
+}
+```
+
+</details>
+
+<details open>
+<summary><b>2. Wrap Your Screens</b></summary>
+
+Simply wrap any screen with `InternetStateManager`:
+
+```dart
+@override
+Widget build(BuildContext context) {
+  return InternetStateManager(
+    child: Scaffold(
+      body: Center(
+        child: Text('Your content here'),
+      ),
+    ),
+  );
+}
+```
+
+<!-- TODO: Add screenshot/GIF here -->
+<!-- ![Demo](assets/demo.gif) -->
+
+</details>
+
+---
+
+## 🎨 Customization
+
+<details>
+<summary><b>Builder Widget</b></summary>
+
+Full control over your UI based on connection state:
+
+```dart
+InternetStateManager.builder(
+  builder: (context, state) {
+    return Scaffold(
+      body: Center(
+        child: state.status.isConnected
+            ? Text('✅ Connected!')
+            : Text('❌ No internet'),
+      ),
+    );
+  },
+);
+```
+
+</details>
+
+<details>
+<summary><b>Connection Restoration Callback</b></summary>
+
+Execute logic when connection is restored:
+
+```dart
+InternetStateManager(
+  onRestoreInternetConnection: () {
+    // Refresh data, sync, etc.
+    setState(() {
+      fetchData();
+    });
+  },
+  child: MyScreen(),
+);
+```
+
+</details>
+
+<details>
+<summary><b>Custom No-Internet Screen</b></summary>
+
+Replace the default disconnected UI:
+
+```dart
+InternetStateManager(
+  noInternetScreen: CustomNoInternetWidget(),
+  child: MyScreen(),
+);
+```
+
+</details>
+
+<details>
+<summary><b>Options Configuration</b></summary>
+
+```dart
+InternetStateOptions(
+  // Check interval when connected
+  checkConnectionPeriodic: const Duration(seconds: 12),
+  
+  // Check interval when disconnected (faster retry)
+  disconnectionCheckPeriodic: const Duration(seconds: 3),
+  
+  // Custom colors
+  errorBackgroundColor: Colors.red,
+  onBackgroundColor: Colors.white,
+  
+  // Custom labels
+  labels: InternetStateLabels(
+    noInternetTitle: () => 'Oops! No Connection',
+    descriptionText: () => 'Please check your network',
+    tryAgainText: () => 'Retry',
+  ),
+  
+  // Debug logs
+  showLogs: true,
+)
+```
+
+</details>
+
+---
+
+## 🛠️ Advanced Usage
+
+<details>
+<summary><b>Context Extensions</b></summary>
+
+Access connection state from anywhere:
+
+```dart
+// Check current state
+bool isConnected = context.internetState.isConnected;
+
+// Manual connection check
+await context.internetCheck();
+
+// Listen to connection stream
+context.internetStateStream.listen((state) {
+  print('Connection changed: ${state.isConnected}');
+});
+```
+
+</details>
+
+<details>
+<summary><b>Global App Integration</b></summary>
+
+Apply to your entire app:
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      builder: (context, child) => InternetStateManager(child: child!),
+      home: HomeScreen(),
+    );
+  }
+}
+```
+
+</details>
+
+---
+
+## 📱 Screenshots
+
+<!-- TODO: Add screenshots/GIFs -->
+<!--
+| Connected | Disconnected | Restoring |
+|:---------:|:------------:|:---------:|
+| ![Connected](assets/connected.png) | ![Disconnected](assets/disconnected.png) | ![Restoring](assets/restoring.gif) |
+-->
+
+---
+
+## 🙏 Credits
+
+Developed by [Mostafa Alazhariy](https://github.com/MAlazhariy)
+
+**Dependencies:**
+- [connectivity_plus](https://pub.dev/packages/connectivity_plus) — Fast local network detection
+- [internet_connection_checker_plus](https://pub.dev/packages/internet_connection_checker_plus) — Actual internet verification
+
+---
+
+## 👥 Contributors
+
+[![contributors](https://contributors-img.firebaseapp.com/image?repo=MAlazhariy/internet_state_manager)](https://github.com/MAlazhariy/internet_state_manager/graphs/contributors)
+
+---
+
+## ⭐ Support
+
+If you find this package helpful, please give it a star on [GitHub](https://github.com/MAlazhariy/internet_state_manager)! 
+
+Feel free to [open issues](https://github.com/MAlazhariy/internet_state_manager/issues) or submit PRs.
