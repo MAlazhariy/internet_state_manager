@@ -11,7 +11,7 @@ class InternetStateManagerInitializer extends StatelessWidget {
 
   /// Initializes and provides the necessary context for managing internet connection states.
   ///
-  /// This widget must wrap your app’s root widget (usually inside `runApp`) to ensure that
+  /// This widget must wrap your app's root widget (usually inside `runApp`) to ensure that
   /// `InternetStateManager` works correctly throughout the app.
   ///
   /// Example usage in `main()`:
@@ -42,6 +42,16 @@ class InternetStateManagerInitializer extends StatelessWidget {
   }
 
   static final InternetManagerCubit _cubit = InternetManagerCubit();
+
+  /// Returns `true` if there is an active internet connection.
+  ///
+  /// Uses the cached state without performing a new check.
+  static bool get isConnected => _cubit.state.status.isConnected;
+
+  /// Checks internet connectivity and returns the result.
+  ///
+  /// Performs a fresh connectivity check and returns `true` if connected.
+  static Future<bool> checkConnection() => _cubit.checkConnection();
 
   /// Must be called before using [InternetStateManagerInitializer].
   ///

@@ -3,7 +3,40 @@ import 'package:internet_state_manager/src/bloc/internet_manager_cubit.dart';
 import 'package:internet_state_manager/src/utils/internet_state_manager_controller.dart';
 import 'package:internet_state_manager/src/widgets/no_internet_bottom_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_state_manager/src/utils/logger.dart';
 
+/// A widget that manages and displays UI based on internet connectivity state.
+///
+/// Wrap your screen or widget with [InternetStateManager] to automatically
+/// handle internet connection changes and display appropriate UI.
+///
+/// ## Basic Usage
+///
+/// ```dart
+/// InternetStateManager(
+///   child: Scaffold(
+///     body: YourContent(),
+///   ),
+/// )
+/// ```
+///
+/// ## Custom Builder
+///
+/// Use [InternetStateManager.builder] for full control over the UI:
+///
+/// ```dart
+/// InternetStateManager.builder(
+///   builder: (context, state) {
+///     return state.status.isConnected
+///         ? ConnectedWidget()
+///         : DisconnectedWidget();
+///   },
+/// )
+/// ```
+///
+/// See also:
+/// - [InternetStateManagerInitializer] to initialize the package
+/// - [InternetStateOptions] for configuration options
 class InternetStateManager extends StatefulWidget {
   const InternetStateManager({
     super.key,
@@ -71,17 +104,20 @@ class _InternetStateManagerState extends State<InternetStateManager> {
     return BlocBuilder<InternetManagerCubit, InternetManagerState>(
       builder: (context, state) {
         if (getOptions.showLogs) {
-          debugPrint('> state changed: $state (${counter++})');
+          logger.debug('state changed: $state (${counter++})');
         }
         if (state.status.isDisconnected) {
           return widget.noInternetScreen ?? _DisconnectedWidget(parent: widget);
-        } else if (context.read<InternetManagerCubit>().connectionRestored && widget.onRestoreInternetConnection != null) {
+        } else if (context.read<InternetManagerCubit>().connectionRestored &&
+            widget.onRestoreInternetConnection != null) {
           if (getOptions.showLogs) {
-            debugPrint("🔄 Internet connection restored ..");
+            logger.info("Internet connection restored");
           }
           WidgetsBinding.instance.addPostFrameCallback((_) {
             widget.onRestoreInternetConnection?.call();
-            context.read<InternetManagerCubit>().onRestoreInternetConnectionCalled();
+            context
+                .read<InternetManagerCubit>()
+                .onRestoreInternetConnectionCalled();
           });
         }
 

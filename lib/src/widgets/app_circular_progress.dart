@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class AppCircularProgress extends StatelessWidget {
-
   const AppCircularProgress({
     super.key,
     this.color,
@@ -19,7 +18,8 @@ class AppCircularProgress extends StatelessWidget {
     return SizedBox.square(
       dimension: size,
       child: CircularProgressIndicator.adaptive(
-        valueColor: color != null ? AlwaysStoppedAnimation<Color>(color!) : null,
+        valueColor:
+            color != null ? AlwaysStoppedAnimation<Color>(color!) : null,
         backgroundColor: Platform.isIOS ? color : null,
         strokeWidth: strokeWidth,
       ),

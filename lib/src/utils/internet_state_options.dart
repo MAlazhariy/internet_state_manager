@@ -12,9 +12,9 @@ class InternetStateOptions {
   /// otherwise if null it will be set to [checkConnectionPeriodic].
   final Duration? disconnectionCheckPeriodic;
 
-  /// ### Set to [TRUE] to auto check internet connection periodically.
+  /// ### Set to `true` to auto check internet connection periodically.
   ///
-  /// If set to [FALSE] it will check the internet connection only
+  /// If set to `false` it will check the internet connection only
   /// when calling [InternetStateManager] widget on a new screen in your widget tree.
   ///
   /// In other words, it will check the internet connection
@@ -23,33 +23,42 @@ class InternetStateOptions {
 
   /// ### Color of the background when internet disconnected.
   ///
-  /// If [Null] it returns the default color of [colorScheme.error].
+  /// If `null` it returns the default color of `Theme.of(context).colorScheme.error`.
   final Color? errorBackgroundColor;
 
   /// ### Color of the text on background when internet disconnected.
   ///
-  /// If [NULL] it returns the default color of [colorScheme.onError].
+  /// If `null` it returns the default color of `Theme.of(context).colorScheme.onError`.
   final Color? onBackgroundColor;
 
   /// ### The labels shown when internet disconnected.
   ///
-  /// If [NULL] it returns default values.
+  /// If `null` it returns default values.
   late final InternetStateLabels labels;
 
   /// ### Show logs.
   ///
-  /// Default is [FALSE].
+  /// Default is `false`.
   final bool showLogs;
 
   /// ### Timeout duration when checking real internet connection.
   ///
-  /// Default is 3 seconds.
+  /// Default is 5 seconds.
   late final Duration checkConnectionTimeout;
+
+  /// ### Enhanced iOS connectivity detection.
+  ///
+  /// When `true`, the package relies more on actual internet checks rather than
+  /// local network status on iOS. This helps avoid false "No Internet" states
+  /// on iOS simulators, especially in debug mode.
+  ///
+  /// Default is `true`.
+  final bool enhancedIosConnectivity;
 
   InternetStateOptions({
     /// ### The labels shown when internet disconnected.
     ///
-    /// If [NULL] it returns default values.
+    /// If `null` it returns default values.
     InternetStateLabels? labels,
     this.errorBackgroundColor,
     this.onBackgroundColor,
@@ -57,7 +66,8 @@ class InternetStateOptions {
     this.autoCheckConnection = true,
     this.showLogs = false,
     this.disconnectionCheckPeriodic,
-    this.checkConnectionTimeout = const Duration(seconds: 3),
+    this.checkConnectionTimeout = const Duration(seconds: 5),
+    this.enhancedIosConnectivity = true,
   }) {
     this.labels = labels ?? InternetStateLabels.defaultValues;
   }

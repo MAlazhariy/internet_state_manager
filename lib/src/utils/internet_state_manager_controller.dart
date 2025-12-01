@@ -1,7 +1,9 @@
-import 'package:internet_state_manager/src/not_initialized_exception.dart' show NotInitializedException;
+import 'package:internet_state_manager/src/not_initialized_exception.dart'
+    show NotInitializedException;
 import 'package:internet_state_manager/src/utils/internet_state_options.dart';
 
-InternetStateOptions get getOptions => InternetStateManagerController.instance.options;
+InternetStateOptions get getOptions =>
+    InternetStateManagerController.instance.options;
 
 class InternetStateManagerController {
   final InternetStateOptions options;
@@ -13,7 +15,8 @@ class InternetStateManagerController {
   factory InternetStateManagerController.init({
     required InternetStateOptions options,
   }) =>
-      _instance = InternetStateManagerController._createInstance(options: options);
+      _instance =
+          InternetStateManagerController._createInstance(options: options);
 
   /// Returns an instance of [InternetStateManagerController].
   ///
@@ -26,7 +29,8 @@ class InternetStateManagerController {
   }
 
   static InternetStateManagerController _defaultInstance() {
-    return InternetStateManagerController._createInstance(options: InternetStateOptions());
+    return InternetStateManagerController._createInstance(
+        options: InternetStateOptions());
   }
 
   static void checkInstanceIsCreated() {

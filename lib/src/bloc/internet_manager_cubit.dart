@@ -10,6 +10,7 @@ import 'package:internet_state_manager/src/utils/custom_check_options.dart';
 import 'package:internet_state_manager/src/utils/enums/internet_state_enum.dart';
 import 'package:internet_state_manager/internet_state_manager.dart';
 import 'package:internet_state_manager/src/utils/internet_state_manager_controller.dart';
+import 'package:internet_state_manager/src/utils/logger.dart';
 
 part 'internet_manager_state.dart';
 
@@ -17,10 +18,11 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
   InternetManagerCubit() : super(const InternetManagerState.init());
 
   List<ConnectivityResult> _localConnectionResult = [];
-  late final StreamSubscription<List<ConnectivityResult>> _localNetworkSubscription;
+  late final StreamSubscription<List<ConnectivityResult>>
+      _localNetworkSubscription;
   final _networkConnection = InternetConnection.createInstance(
     customCheckOptions: customCheckOptions,
-    useDefaultOptions: false,
+    useDefaultOptions: true, // Include default endpoints as fallback
   );
   final _internetStreamController = StreamController<InternetState>.broadcast();
 
@@ -44,10 +46,26 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
 
   /// Return [TRUE] if the device disconnected to any local network
   /// i.e: **wifi** or **mobile data**.
-  bool get disconnectedToLocalNetwork => state.status.isInitialized && _connectivityDisconnected;
+  bool get disconnectedToLocalNetwork =>
+      state.status.isInitialized && _connectivityDisconnected;
 
-  bool get _connectivityDisconnected =>
-      _localConnectionResult.isEmpty || (_localConnectionResult.contains(ConnectivityResult.none) && !Platform.isIOS);
+  bool get _connectivityDisconnected {
+    // On iOS (especially simulators in debug mode), connectivity_plus can be unreliable
+    // and may report "none" even when connected. Always do actual internet check.
+    if (Platform.isIOS && getOptions.enhancedIosConnectivity) {
+      return false; // Never skip the actual internet check on iOS
+    }
+
+    if (_localConnectionResult.isEmpty) return true;
+
+    // Check if there's any actual connection (wifi, mobile, ethernet, etc.)
+    // connectivity_plus can return [wifi, none] on newer Android versions
+    final hasRealConnection = _localConnectionResult.any(
+      (r) => r != ConnectivityResult.none,
+    );
+
+    return !hasRealConnection;
+  }
 
   Future<void> initCheckLocalNetworkConnection() async {
     // start stream on local network connection
@@ -55,7 +73,8 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     await checkConnection();
 
     // init stream on local network
-    _localNetworkSubscription = Connectivity().onConnectivityChanged.listen((result) {
+    _localNetworkSubscription =
+        Connectivity().onConnectivityChanged.listen((result) {
       _localConnectionResult = result;
       checkConnection();
     });
@@ -70,7 +89,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
       emit(state._loading());
     }
 
-    if (getOptions.showLogs) debugPrint('>> Checking for connection...');
+    if (getOptions.showLogs) logger.info('Checking for connection...');
 
     // check internet connection if there status connection
     bool connectionResult = false;
@@ -79,7 +98,8 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     }
 
     // update state if the result changed
-    if (connectionResult != state.status.isConnected && state.status.isInitialized) {
+    if (connectionResult != state.status.isConnected &&
+        state.status.isInitialized) {
       _connectionChanged = true;
       _internetStreamController.add(_getStateFromBool(connectionResult));
     } else if (!state.status.isInitialized) {
@@ -91,7 +111,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     );
 
     if (getOptions.showLogs) {
-      debugPrint(
+      logger.info(
           'connection: ${_localConnectionResult.map((e) => e.name).join(', ')} - ${state.status.isConnected ? "connected ✅" : "not connected ❌"}');
     }
     _loading = false;
@@ -104,7 +124,8 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
 
   void _startTimer() {
     if (getOptions.autoCheckConnection) {
-      final duration = state.status.isConnected || getOptions.disconnectionCheckPeriodic == null
+      final duration = state.status.isConnected ||
+              getOptions.disconnectionCheckPeriodic == null
           ? getOptions.checkConnectionPeriodic
           : getOptions.disconnectionCheckPeriodic!;
       _timer = Timer(
