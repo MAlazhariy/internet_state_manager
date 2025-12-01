@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_state_manager/internet_state_manager.dart';
 
@@ -65,12 +66,20 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 20),
               ),
               const SizedBox(height: 32),
-              ElevatedButton(
+                ElevatedButton(
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const BuilderExample()),
                 ),
                 child: const Text('See Builder Example'),
+              ),
+              const SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const DioInterceptorExample()),
+                ),
+                child: const Text('See Dio Interceptor Example'),
               ),
             ],
           ),
@@ -116,6 +125,113 @@ class BuilderExample extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+/// Example using InternetStateManagerInterceptor with Dio
+class DioInterceptorExample extends StatefulWidget {
+  const DioInterceptorExample({super.key});
+
+  @override
+  State<DioInterceptorExample> createState() => _DioInterceptorExampleState();
+}
+
+class _DioInterceptorExampleState extends State<DioInterceptorExample> {
+  late final Dio _dio;
+  List<dynamic>? _posts;
+  bool _loading = false;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _dio = Dio();
+    // Add the optional interceptor to trigger connectivity checks
+    _dio.interceptors.add(InternetStateManagerInterceptor());
+  }
+
+  Future<void> _fetchPosts() async {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+
+    try {
+      final response = await _dio.get(
+        'https://jsonplaceholder.typicode.com/posts',
+        queryParameters: {'_limit': 5},
+      );
+      setState(() {
+        _posts = response.data;
+        _loading = false;
+      });
+    } on DioException catch (e) {
+      setState(() {
+        _error = e.message ?? 'Request failed';
+        _loading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InternetStateManager(
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Dio Interceptor Example')),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ElevatedButton.icon(
+                onPressed: _loading ? null : _fetchPosts,
+                icon: const Icon(Icons.download),
+                label: const Text('Fetch Posts'),
+              ),
+              const SizedBox(height: 16),
+              if (_loading)
+                const Center(child: CircularProgressIndicator())
+              else if (_error != null)
+                Card(
+                  color: Colors.red.shade100,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text('Error: $_error'),
+                  ),
+                )
+              else if (_posts != null)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _posts!.length,
+                    itemBuilder: (context, index) {
+                      final post = _posts![index];
+                      return Card(
+                        child: ListTile(
+                          leading: CircleAvatar(child: Text('${post['id']}')),
+                          title: Text(
+                            post['title'],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          subtitle: Text(
+                            post['body'],
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                )
+              else
+                const Center(
+                  child: Text('Press the button to fetch posts'),
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
