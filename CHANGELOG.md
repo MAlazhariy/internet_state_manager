@@ -1,12 +1,20 @@
 # Changelog
 
+## 1.10.1
+
+ - **FIX**: Enhanced iOS connectivity detection to work around unreliable `connectivity_plus` behavior on iOS simulators, especially in debug mode. The package now relies more on actual internet checks rather than local network status on iOS.
+
+ - **FEAT**: Added `enhancedIosConnectivity` option (default: `true`) to control the enhanced iOS connectivity handling. This helps avoid false "No Internet" states on iOS simulators.
+
+ - **DOCS**: Updated README with iOS simulator notes and enhanced Dio Interceptor documentation, recommending it for production apps on iOS and Android.
+
 ## 1.10.0
 
  - **FEAT**: Added optional `InternetStateManagerInterceptor` for Dio users. Triggers a non-blocking connectivity check on every HTTP request to keep the internet state fresh. This is completely optional and the package works without it.
 
  - **FEAT**: Added static `isConnected` getter and `checkConnection()` method to `InternetStateManagerInitializer` for accessing connectivity state without `BuildContext`.
 
- - **ENHANCED**: Replaced `debugPrint` with `logger` package for better formatted and more informative log output in terminal. Logs now include timestamps, colors, and emojis for improved debugging experience.
+ - **ENHANCED**: Replaced `debugPrint` with `logger` package for better formatted and more informative log output in terminal. Logs are now colored and compact (single-line format) for improved debugging experience without cluttering the console.
 
 ## 1.9.0
 

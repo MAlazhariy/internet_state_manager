@@ -43,8 +43,17 @@ class InternetStateOptions {
 
   /// ### Timeout duration when checking real internet connection.
   ///
-  /// Default is 3 seconds.
+  /// Default is 5 seconds.
   late final Duration checkConnectionTimeout;
+
+  /// ### Enhanced iOS connectivity detection.
+  ///
+  /// When `true`, the package relies more on actual internet checks rather than
+  /// local network status on iOS. This helps avoid false "No Internet" states
+  /// on iOS simulators, especially in debug mode.
+  ///
+  /// Default is `true`.
+  final bool enhancedIosConnectivity;
 
   InternetStateOptions({
     /// ### The labels shown when internet disconnected.
@@ -57,7 +66,8 @@ class InternetStateOptions {
     this.autoCheckConnection = true,
     this.showLogs = false,
     this.disconnectionCheckPeriodic,
-    this.checkConnectionTimeout = const Duration(seconds: 3),
+    this.checkConnectionTimeout = const Duration(seconds: 5),
+    this.enhancedIosConnectivity = true,
   }) {
     this.labels = labels ?? InternetStateLabels.defaultValues;
   }

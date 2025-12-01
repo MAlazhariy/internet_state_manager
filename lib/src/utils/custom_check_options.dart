@@ -2,10 +2,10 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:internet_state_manager/src/utils/internet_state_manager_controller.dart';
 
 final _addresses = [
+  'https://www.google.com/',
+  'https://www.apple.com/',
   'https://one.one.one.one/',
   'https://icanhazip.com/',
-  'https://jsonplaceholder.typicode.com/todos/1',
-  'https://reqres.in/api/users/1',
 ];
 
 final customCheckOptions = List<InternetCheckOption>.generate(

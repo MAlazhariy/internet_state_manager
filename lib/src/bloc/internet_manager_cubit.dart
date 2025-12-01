@@ -22,7 +22,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
       _localNetworkSubscription;
   final _networkConnection = InternetConnection.createInstance(
     customCheckOptions: customCheckOptions,
-    useDefaultOptions: false,
+    useDefaultOptions: true, // Include default endpoints as fallback
   );
   final _internetStreamController = StreamController<InternetState>.broadcast();
 
@@ -49,10 +49,23 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
   bool get disconnectedToLocalNetwork =>
       state.status.isInitialized && _connectivityDisconnected;
 
-  bool get _connectivityDisconnected =>
-      _localConnectionResult.isEmpty ||
-      (_localConnectionResult.contains(ConnectivityResult.none) &&
-          !Platform.isIOS);
+  bool get _connectivityDisconnected {
+    // On iOS (especially simulators in debug mode), connectivity_plus can be unreliable
+    // and may report "none" even when connected. Always do actual internet check.
+    if (Platform.isIOS && getOptions.enhancedIosConnectivity) {
+      return false; // Never skip the actual internet check on iOS
+    }
+
+    if (_localConnectionResult.isEmpty) return true;
+
+    // Check if there's any actual connection (wifi, mobile, ethernet, etc.)
+    // connectivity_plus can return [wifi, none] on newer Android versions
+    final hasRealConnection = _localConnectionResult.any(
+      (r) => r != ConnectivityResult.none,
+    );
+
+    return !hasRealConnection;
+  }
 
   Future<void> initCheckLocalNetworkConnection() async {
     // start stream on local network connection
