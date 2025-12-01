@@ -2,11 +2,15 @@
 
 ## 1.10.1
 
- - **FIX**: Enhanced iOS connectivity detection to work around unreliable `connectivity_plus` behavior on iOS simulators, especially in debug mode. The package now relies more on actual internet checks rather than local network status on iOS.
+ - **FIX**: Fixed false "No Internet" detection on iOS simulators (especially in debug mode) and Android API 35+. The issue was caused by `connectivity_plus` returning unreliable results (`none` even when connected on iOS, or `[wifi, none]` on newer Android).
 
- - **FEAT**: Added `enhancedIosConnectivity` option (default: `true`) to control the enhanced iOS connectivity handling. This helps avoid false "No Internet" states on iOS simulators.
+ - **ENHANCED**: The package now properly checks for any real connection (wifi, mobile, etc.) instead of being blocked by the presence of `ConnectivityResult.none` in the results list.
 
- - **DOCS**: Updated README with iOS simulator notes and enhanced Dio Interceptor documentation, recommending it for production apps on iOS and Android.
+ - **ENHANCED**: Increased default `checkConnectionTimeout` from 3s to 5s to better handle slower network responses on simulators/emulators.
+
+ - **ENHANCED**: Added more reliable connectivity check URLs (Google, Apple) and enabled fallback to default endpoints.
+
+ - **FEAT**: Added `enhancedIosConnectivity` option (default: `true`) to always perform actual internet checks on iOS, bypassing unreliable `connectivity_plus` status.
 
 ## 1.10.0
 
@@ -14,7 +18,7 @@
 
  - **FEAT**: Added static `isConnected` getter and `checkConnection()` method to `InternetStateManagerInitializer` for accessing connectivity state without `BuildContext`.
 
- - **ENHANCED**: Replaced `debugPrint` with `logger` package for better formatted and more informative log output in terminal. Logs are now colored and compact (single-line format) for improved debugging experience without cluttering the console.
+ - **ENHANCED**: Replaced `debugPrint` with `easy_logger` package for better formatted and more informative log output in terminal. Logs are now colored and compact (single-line format) for improved debugging experience without cluttering the console.
 
 ## 1.9.0
 
