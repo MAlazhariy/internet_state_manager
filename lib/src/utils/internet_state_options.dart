@@ -12,9 +12,9 @@ class InternetStateOptions {
   /// otherwise if null it will be set to [checkConnectionPeriodic].
   final Duration? disconnectionCheckPeriodic;
 
-  /// ### Set to [TRUE] to auto check internet connection periodically.
+  /// ### Set to `true` to auto check internet connection periodically.
   ///
-  /// If set to [FALSE] it will check the internet connection only
+  /// If set to `false` it will check the internet connection only
   /// when calling [InternetStateManager] widget on a new screen in your widget tree.
   ///
   /// In other words, it will check the internet connection
@@ -23,22 +23,22 @@ class InternetStateOptions {
 
   /// ### Color of the background when internet disconnected.
   ///
-  /// If [Null] it returns the default color of [colorScheme.error].
+  /// If `null` it returns the default color of `Theme.of(context).colorScheme.error`.
   final Color? errorBackgroundColor;
 
   /// ### Color of the text on background when internet disconnected.
   ///
-  /// If [NULL] it returns the default color of [colorScheme.onError].
+  /// If `null` it returns the default color of `Theme.of(context).colorScheme.onError`.
   final Color? onBackgroundColor;
 
   /// ### The labels shown when internet disconnected.
   ///
-  /// If [NULL] it returns default values.
+  /// If `null` it returns default values.
   late final InternetStateLabels labels;
 
   /// ### Show logs.
   ///
-  /// Default is [FALSE].
+  /// Default is `false`.
   final bool showLogs;
 
   /// ### Timeout duration when checking real internet connection.
@@ -49,7 +49,7 @@ class InternetStateOptions {
   InternetStateOptions({
     /// ### The labels shown when internet disconnected.
     ///
-    /// If [NULL] it returns default values.
+    /// If `null` it returns default values.
     InternetStateLabels? labels,
     this.errorBackgroundColor,
     this.onBackgroundColor,
