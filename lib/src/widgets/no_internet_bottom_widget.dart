@@ -36,7 +36,9 @@ class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
   @override
   void initState() {
     if (!getOptions.autoCheckConnection) {
-      _sub = _checkInternetStreamPeriodic.asyncMap((event) async => await event).listen((event) {});
+      _sub = _checkInternetStreamPeriodic
+          .asyncMap((event) async => await event)
+          .listen((event) {});
     }
     super.initState();
   }
@@ -47,8 +49,10 @@ class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
     super.dispose();
   }
 
-  late final backgroundColor = options.errorBackgroundColor ?? Theme.of(context).colorScheme.error;
-  late final textColor = options.onBackgroundColor ?? Theme.of(context).colorScheme.onError;
+  late final backgroundColor =
+      options.errorBackgroundColor ?? Theme.of(context).colorScheme.error;
+  late final textColor =
+      options.onBackgroundColor ?? Theme.of(context).colorScheme.onError;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +84,10 @@ class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
                 ),
                 Text(
                   options.labels.descriptionText(),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: textColor),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: textColor),
                 ),
               ],
             ),
@@ -88,7 +95,9 @@ class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
           const SizedBox(width: 8),
           BlocBuilder<InternetManagerCubit, InternetManagerState>(
             builder: (context, state) {
-              if (context.read<InternetManagerCubit>().disconnectedToLocalNetwork) {
+              if (context
+                  .read<InternetManagerCubit>()
+                  .disconnectedToLocalNetwork) {
                 return const SizedBox(height: 50);
               }
 
@@ -110,7 +119,10 @@ class _NoInternetBottomWidgetState extends State<NoInternetBottomWidget> {
                       },
                       child: Text(
                         options.labels.tryAgainText(),
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: textColor),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(color: textColor),
                       ),
                     );
             },

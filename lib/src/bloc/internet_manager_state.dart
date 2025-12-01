@@ -34,11 +34,13 @@ class InternetManagerState extends Equatable {
 
   InternetManagerState _loading() => _copyWith(loading: true);
 
-  InternetManagerState _setState(InternetState status) => _copyWith(loading: false, status: status);
+  InternetManagerState _setState(InternetState status) =>
+      _copyWith(loading: false, status: status);
 
   @override
   List<Object> get props => [status, loading];
 
   @override
-  String toString() => 'InternetState(${status.name.toUpperCase()}, loading: $loading)';
+  String toString() =>
+      'InternetState(${status.name.toUpperCase()}, loading: $loading)';
 }

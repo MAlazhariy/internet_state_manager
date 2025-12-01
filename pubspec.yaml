@@ -1,5 +1,5 @@
 name: internet_state_manager
-description: A Flutter package for seamless internet connection management. Automatically detect connectivity changes, handle outages with customizable widgets, and execute logic when the connection is restored—all with minimal code.
+description: Seamless internet connection management for Flutter. Auto-detect, handle outages, and restore state with minimal code.
 homepage: https://github.com/MAlazhariy/internet_state_manager
 issue_tracker: https://github.com/MAlazhariy/internet_state_manager/issues
 version: 1.9.0

@@ -7,6 +7,24 @@ import 'package:flutter/material.dart';
 
 import 'app_circular_progress.dart';
 
+/// A full-screen widget displayed when there is no internet connection.
+///
+/// This widget shows a centered message with an icon, title, description,
+/// and a retry button. It automatically checks for connection restoration.
+///
+/// You can customize the labels and colors through [InternetStateOptions].
+///
+/// ## Customization
+///
+/// ```dart
+/// InternetStateOptions(
+///   labels: InternetStateLabels(
+///     noInternetTitle: () => 'no_connection'.tr(),
+///     descriptionText: () => LocaleKeys.please_check_your_network.tr(),
+///     tryAgainText: () => 'Retry',
+///   ),
+/// )
+/// ```
 class NoInternetScreen extends StatefulWidget {
   const NoInternetScreen({super.key});
 
@@ -36,7 +54,9 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
   @override
   void initState() {
     if (!getOptions.autoCheckConnection) {
-      _sub = _checkInternetStreamPeriodic.asyncMap((event) async => await event).listen((event) {});
+      _sub = _checkInternetStreamPeriodic
+          .asyncMap((event) async => await event)
+          .listen((event) {});
     }
     super.initState();
   }
@@ -54,7 +74,6 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
       padding: const EdgeInsets.all(16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-
         children: [
           const Icon(
             Icons.cloud_off,
@@ -76,7 +95,9 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
           // Retry button
           BlocBuilder<InternetManagerCubit, InternetManagerState>(
             builder: (context, state) {
-              if (context.read<InternetManagerCubit>().disconnectedToLocalNetwork) {
+              if (context
+                  .read<InternetManagerCubit>()
+                  .disconnectedToLocalNetwork) {
                 return const SizedBox(height: 50);
               } else if (state.loading) {
                 return Container(

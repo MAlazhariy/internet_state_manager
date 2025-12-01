@@ -17,7 +17,8 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
   InternetManagerCubit() : super(const InternetManagerState.init());
 
   List<ConnectivityResult> _localConnectionResult = [];
-  late final StreamSubscription<List<ConnectivityResult>> _localNetworkSubscription;
+  late final StreamSubscription<List<ConnectivityResult>>
+      _localNetworkSubscription;
   final _networkConnection = InternetConnection.createInstance(
     customCheckOptions: customCheckOptions,
     useDefaultOptions: false,
@@ -44,10 +45,13 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
 
   /// Return [TRUE] if the device disconnected to any local network
   /// i.e: **wifi** or **mobile data**.
-  bool get disconnectedToLocalNetwork => state.status.isInitialized && _connectivityDisconnected;
+  bool get disconnectedToLocalNetwork =>
+      state.status.isInitialized && _connectivityDisconnected;
 
   bool get _connectivityDisconnected =>
-      _localConnectionResult.isEmpty || (_localConnectionResult.contains(ConnectivityResult.none) && !Platform.isIOS);
+      _localConnectionResult.isEmpty ||
+      (_localConnectionResult.contains(ConnectivityResult.none) &&
+          !Platform.isIOS);
 
   Future<void> initCheckLocalNetworkConnection() async {
     // start stream on local network connection
@@ -55,7 +59,8 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     await checkConnection();
 
     // init stream on local network
-    _localNetworkSubscription = Connectivity().onConnectivityChanged.listen((result) {
+    _localNetworkSubscription =
+        Connectivity().onConnectivityChanged.listen((result) {
       _localConnectionResult = result;
       checkConnection();
     });
@@ -79,7 +84,8 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     }
 
     // update state if the result changed
-    if (connectionResult != state.status.isConnected && state.status.isInitialized) {
+    if (connectionResult != state.status.isConnected &&
+        state.status.isInitialized) {
       _connectionChanged = true;
       _internetStreamController.add(_getStateFromBool(connectionResult));
     } else if (!state.status.isInitialized) {
@@ -104,7 +110,8 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
 
   void _startTimer() {
     if (getOptions.autoCheckConnection) {
-      final duration = state.status.isConnected || getOptions.disconnectionCheckPeriodic == null
+      final duration = state.status.isConnected ||
+              getOptions.disconnectionCheckPeriodic == null
           ? getOptions.checkConnectionPeriodic
           : getOptions.disconnectionCheckPeriodic!;
       _timer = Timer(

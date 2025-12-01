@@ -4,6 +4,38 @@ import 'package:internet_state_manager/src/utils/internet_state_manager_controll
 import 'package:internet_state_manager/src/widgets/no_internet_bottom_widget.dart';
 import 'package:flutter/material.dart';
 
+/// A widget that manages and displays UI based on internet connectivity state.
+///
+/// Wrap your screen or widget with [InternetStateManager] to automatically
+/// handle internet connection changes and display appropriate UI.
+///
+/// ## Basic Usage
+///
+/// ```dart
+/// InternetStateManager(
+///   child: Scaffold(
+///     body: YourContent(),
+///   ),
+/// )
+/// ```
+///
+/// ## Custom Builder
+///
+/// Use [InternetStateManager.builder] for full control over the UI:
+///
+/// ```dart
+/// InternetStateManager.builder(
+///   builder: (context, state) {
+///     return state.status.isConnected
+///         ? ConnectedWidget()
+///         : DisconnectedWidget();
+///   },
+/// )
+/// ```
+///
+/// See also:
+/// - [InternetStateManagerInitializer] to initialize the package
+/// - [InternetStateOptions] for configuration options
 class InternetStateManager extends StatefulWidget {
   const InternetStateManager({
     super.key,
@@ -75,13 +107,16 @@ class _InternetStateManagerState extends State<InternetStateManager> {
         }
         if (state.status.isDisconnected) {
           return widget.noInternetScreen ?? _DisconnectedWidget(parent: widget);
-        } else if (context.read<InternetManagerCubit>().connectionRestored && widget.onRestoreInternetConnection != null) {
+        } else if (context.read<InternetManagerCubit>().connectionRestored &&
+            widget.onRestoreInternetConnection != null) {
           if (getOptions.showLogs) {
             debugPrint("🔄 Internet connection restored ..");
           }
           WidgetsBinding.instance.addPostFrameCallback((_) {
             widget.onRestoreInternetConnection?.call();
-            context.read<InternetManagerCubit>().onRestoreInternetConnectionCalled();
+            context
+                .read<InternetManagerCubit>()
+                .onRestoreInternetConnectionCalled();
           });
         }
 

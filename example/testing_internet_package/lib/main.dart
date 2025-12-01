@@ -144,7 +144,7 @@ class _SecondScreenState extends State<SecondScreen> {
       ),
       body: InternetStateManager(
         child: const FirstScreen(),
-        onRestoreInternetConnection: (){
+        onRestoreInternetConnection: () {
           setState(() {
             title = "Internet connection restored";
           });
@@ -169,7 +169,10 @@ class Btn extends StatelessWidget {
     return Center(
       child: TextButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => screen),
+          );
         },
         child: Text(title),
       ),
