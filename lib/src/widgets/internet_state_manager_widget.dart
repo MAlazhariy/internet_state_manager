@@ -104,14 +104,14 @@ class _InternetStateManagerState extends State<InternetStateManager> {
     return BlocBuilder<InternetManagerCubit, InternetManagerState>(
       builder: (context, state) {
         if (getOptions.showLogs) {
-          logger.d('state changed: $state (${counter++})');
+          logger.debug('state changed: $state (${counter++})');
         }
         if (state.status.isDisconnected) {
           return widget.noInternetScreen ?? _DisconnectedWidget(parent: widget);
         } else if (context.read<InternetManagerCubit>().connectionRestored &&
             widget.onRestoreInternetConnection != null) {
           if (getOptions.showLogs) {
-            logger.i("Internet connection restored");
+            logger.info("Internet connection restored");
           }
           WidgetsBinding.instance.addPostFrameCallback((_) {
             widget.onRestoreInternetConnection?.call();

@@ -89,7 +89,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
       emit(state._loading());
     }
 
-    if (getOptions.showLogs) logger.i('Checking for connection...');
+    if (getOptions.showLogs) logger.info('Checking for connection...');
 
     // check internet connection if there status connection
     bool connectionResult = false;
@@ -111,7 +111,7 @@ class InternetManagerCubit extends Cubit<InternetManagerState> {
     );
 
     if (getOptions.showLogs) {
-      logger.i(
+      logger.info(
           'connection: ${_localConnectionResult.map((e) => e.name).join(', ')} - ${state.status.isConnected ? "connected ✅" : "not connected ❌"}');
     }
     _loading = false;

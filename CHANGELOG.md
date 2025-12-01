@@ -18,7 +18,7 @@
 
  - **FEAT**: Added static `isConnected` getter and `checkConnection()` method to `InternetStateManagerInitializer` for accessing connectivity state without `BuildContext`.
 
- - **ENHANCED**: Replaced `debugPrint` with `easy_logger` package for better formatted and more informative log output in terminal. Logs are now colored and compact (single-line format) for improved debugging experience without cluttering the console.
+ - **ENHANCED**: Replaced `debugPrint` with custom colored logger for better formatted and more informative log output in terminal. Logs are now colored based on context (green for connected ✅, red for disconnected ❌, yellow for checking 🔄) with emojis for quick visual identification, all in a compact single-line format.
 
 ## 1.9.0
 
