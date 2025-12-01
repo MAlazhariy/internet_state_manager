@@ -19,6 +19,41 @@ A powerful Flutter package for seamless internet connection management. **Not ju
 
 ---
 
+## 🤔 Why Use This Package?
+
+- ⏱️ **Save time** — No need to write connectivity checks on every screen
+- 🎯 **Better UX** — Auto-handle offline states with built-in UI
+- 🔄 **Auto-refresh** — Fetch fresh data when connection restores via `onConnectionRestored`
+- 🧩 **Less boilerplate** — Wrap once, works everywhere
+
+---
+
+## 💡 How It Works
+
+**Simple 3-step setup:**
+
+1. **Initialize** → Wrap your app with `InternetStateManagerInitializer`
+2. **Wrap** → Add `InternetStateManager` to any screen
+3. **Done!** → The package handles everything automatically ✨
+
+**Behind the scenes:**
+- 🔍 Periodically checks actual internet access (not just Wi-Fi)
+- 🖼️ Shows a built-in "No Internet" screen when disconnected
+- 🔄 Automatically restores your screen when connection returns
+- 📞 Optionally triggers callbacks to refresh your data
+
+---
+
+<!--
+## 📱 Screenshots
+
+| Connected | Disconnected | Auto Restore |
+|:---------:|:------------:|:------------:|
+| ![Connected](assets/connected.png) | ![Disconnected](assets/disconnected.png) | ![Restoring](assets/restoring.gif) |
+
+---
+-->
+
 ## 📋 Requirements
 
 | Platform | Minimum Version |
@@ -279,17 +314,6 @@ class MyApp extends StatelessWidget {
 ```
 
 </details>
-
----
-
-<!--
-## 📱 Screenshots
-
-TODO: Add screenshots/GIFs
-| Connected | Disconnected | Restoring |
-|:---------:|:------------:|:---------:|
-| ![Connected](assets/connected.png) | ![Disconnected](assets/disconnected.png) | ![Restoring](assets/restoring.gif) |
--->
 
 ---
 
