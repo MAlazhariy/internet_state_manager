@@ -35,27 +35,27 @@ A powerful Flutter package for seamless internet connection management. **Not ju
 
 ---
 
-<!--
-## 📱 Screenshots
+## 📱 Demo
 
-| Connected | Disconnected | Auto Restore |
-|:---------:|:------------:|:------------:|
-| ![Connected](assets/connected.png) | ![Disconnected](assets/disconnected.png) | ![Restoring](assets/restoring.gif) |
+![Internet State Manager Demo](assets/demo.gif)
+
+The demo shows:
+- **First Screen**: Uses `InternetStateManager` with a bottom widget bar that appears when disconnected, showing "لا يوجد اتصال بالانترنت" (No internet connection) with a "Try again" button
+- **Second Screen**: Uses `InternetStateManager` with `NoInternetScreen` - automatically appears when WiFi is disconnected
+- **Auto-detection**: Both screens automatically check internet connection periodically based on library options
+- **Connection Restored**: When WiFi reconnects, "Internet connection restored" message appears and content is restored
 
 ---
--->
 
 ## 📋 Requirements
 
-| Platform | Minimum Version |
-|----------|-----------------|
-| Flutter | ≥ 3.19.0 |
-| Dart | ≥ 3.3.0 \<4.0.0 |
-| iOS | ≥ 12.0 |
-| macOS | ≥ 10.14 |
-| Java | 17 |
-| Android Gradle Plugin | ≥ 8.12.1 |
-| Gradle Wrapper | ≥ 8.13 |
+- **Flutter**: ≥ 3.19.0
+- **Dart**: ≥ 3.3.0 <4.0.0
+- **iOS**: ≥ 12.0
+- **macOS**: ≥ 10.14
+- **Java**: 17
+- **Android Gradle Plugin**: ≥ 8.12.1
+- **Gradle Wrapper**: ≥ 8.13
 
 ---
 
@@ -154,9 +154,6 @@ Widget build(BuildContext context) {
   );
 }
 ```
-
-<!-- TODO: Add screenshot/GIF here -->
-<!-- ![Demo](assets/demo.gif) -->
 
 </details>
 

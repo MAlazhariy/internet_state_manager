@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 20),
               ),
               const SizedBox(height: 32),
-                ElevatedButton(
+              ElevatedButton(
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const BuilderExample()),
@@ -77,7 +77,8 @@ class HomeScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const DioInterceptorExample()),
+                  MaterialPageRoute(
+                      builder: (_) => const DioInterceptorExample()),
                 ),
                 child: const Text('See Dio Interceptor Example'),
               ),
