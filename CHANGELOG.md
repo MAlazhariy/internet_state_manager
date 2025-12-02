@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.1+1
+
+ - **FIX**: Fixed code formatting issues in logger.dart to pass static analysis.
+
 ## 1.10.1
 
  - **FIX**: Fixed false "No Internet" detection on iOS simulators (especially in debug mode) and Android API 35+. The issue was caused by `connectivity_plus` returning unreliable results (`none` even when connected on iOS, or `[wifi, none]` on newer Android).

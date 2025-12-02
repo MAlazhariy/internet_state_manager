@@ -201,61 +201,61 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: _loading
                     ? const Center(child: CircularProgressIndicator())
                     : _error != null
-                        ? Card(
-                            color: Colors.red.shade50,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.error_outline,
-                                    size: 48,
-                                    color: Colors.red,
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    'Error: $_error',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
+                    ? Card(
+                        color: Colors.red.shade50,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.error_outline,
+                                size: 48,
+                                color: Colors.red,
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                'Error: $_error',
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : _posts == null
+                    ? const Center(
+                        child: Text(
+                          'Press a button to fetch data\n'
+                          'The interceptor will trigger connectivity checks',
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: _posts!.length,
+                        itemBuilder: (context, index) {
+                          final item = _posts![index];
+                          return Card(
+                            margin: const EdgeInsets.only(bottom: 8),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                child: Text('${item['id'] ?? index}'),
+                              ),
+                              title: Text(
+                                item['title'] ?? item['name'] ?? 'No title',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              subtitle: Text(
+                                item['body'] ??
+                                    item['email'] ??
+                                    'No description',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                          )
-                        : _posts == null
-                            ? const Center(
-                                child: Text(
-                                  'Press a button to fetch data\n'
-                                  'The interceptor will trigger connectivity checks',
-                                  textAlign: TextAlign.center,
-                                ),
-                              )
-                            : ListView.builder(
-                                itemCount: _posts!.length,
-                                itemBuilder: (context, index) {
-                                  final item = _posts![index];
-                                  return Card(
-                                    margin: const EdgeInsets.only(bottom: 8),
-                                    child: ListTile(
-                                      leading: CircleAvatar(
-                                        child: Text('${item['id'] ?? index}'),
-                                      ),
-                                      title: Text(
-                                        item['title'] ?? item['name'] ?? 'No title',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      subtitle: Text(
-                                        item['body'] ??
-                                            item['email'] ??
-                                            'No description',
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
+                          );
+                        },
+                      ),
               ),
             ],
           ),
