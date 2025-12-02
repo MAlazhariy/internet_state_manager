@@ -18,7 +18,7 @@ class _Logger {
     // Color based on message content
     String color = _blue;
     String emoji = '💡';
-    
+
     if (message.contains('connected ✅') || message.contains('restored')) {
       color = _green;
       emoji = '✅';
@@ -29,7 +29,7 @@ class _Logger {
       color = _yellow;
       emoji = '🔄';
     }
-    
+
     _log('$emoji INFO', message, color);
   }
 
@@ -54,4 +54,3 @@ class _Logger {
 }
 
 final logger = _Logger();
-
